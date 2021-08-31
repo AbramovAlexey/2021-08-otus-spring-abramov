@@ -29,10 +29,9 @@ public class ExamDaoCsv implements ExamDao {
         Exam newExam = new Exam();
         ClassLoader classLoader = getClass().getClassLoader();
         try (InputStream inputStream = classLoader.getResourceAsStream(fileName)) {
-
             MappingIterator<Question> questionList = csvMapper.readerFor(Question.class)
-                    .with(csvSchema)
-                    .readValues(inputStream);
+                                                              .with(csvSchema)
+                                                              .readValues(inputStream);
             questionList.forEachRemaining(newExam::addQuestion);
         }
         return newExam;
