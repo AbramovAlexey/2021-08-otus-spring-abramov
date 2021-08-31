@@ -6,6 +6,6 @@ import java.io.IOException;
 
 public interface ExamDao {
 
-    public Exam loadFromFile() throws IOException;
+    Exam loadFromFile() throws IOException;
 
 }

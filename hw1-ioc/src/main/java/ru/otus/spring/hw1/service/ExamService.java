@@ -5,6 +5,6 @@ import ru.otus.spring.hw1.domain.Exam;
 
 public interface ExamService {
 
-    public Exam loadFromFile() throws Exception;
+    Exam loadFromFile() throws Exception;
 
 }

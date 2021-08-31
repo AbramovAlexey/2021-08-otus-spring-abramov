@@ -9,9 +9,8 @@ import lombok.Setter;
 import ru.otus.spring.hw1.domain.Exam;
 import ru.otus.spring.hw1.domain.Question;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.Objects;
+import java.io.InputStream;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -27,13 +26,15 @@ public class ExamDaoCsv implements ExamDao {
         if (fileName == null || fileName.isBlank()) {
             throw new IllegalArgumentException("File name must not be null");
         }
-        ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File(Objects.requireNonNull(classLoader.getResource(fileName).getFile()));
-        MappingIterator<Question> questionList = csvMapper.readerFor(Question.class)
-                                                          .with(csvSchema)
-                                                          .readValues(file);
         Exam newExam = new Exam();
-        questionList.forEachRemaining(question -> newExam.addQuestion(question));
+        ClassLoader classLoader = getClass().getClassLoader();
+        try (InputStream inputStream = classLoader.getResourceAsStream(fileName)) {
+
+            MappingIterator<Question> questionList = csvMapper.readerFor(Question.class)
+                    .with(csvSchema)
+                    .readValues(inputStream);
+            questionList.forEachRemaining(newExam::addQuestion);
+        }
         return newExam;
     }
 

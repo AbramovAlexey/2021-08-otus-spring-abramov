@@ -22,7 +22,7 @@ public class Exam {
 
     public void printQuestions() {
         for (int i = 0; i < questions.size() ; i++) {
-            System.out.println(String.format("Question №%d:", i + 1));
+            System.out.println("Question №"+ (i + 1) + ":");
             questions.get(i).print();
             System.out.println();
         }
