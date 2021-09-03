@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="examDaoCsv" class="ru.otus.spring.hw1.dao.ExamDaoCsv">
+        <property name="fileName" value="exam-questions.csv"/>
+    </bean>
+
+    <bean id="examServiceImpl" class="ru.otus.spring.hw1.service.ExamServiceImpl">
+        <constructor-arg name="examDao" ref="examDaoCsv"/>
+    </bean>
+
+</beans>
