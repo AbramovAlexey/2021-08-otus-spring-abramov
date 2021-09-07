@@ -1,0 +1,3 @@
+exam:
+  minscore: 1
+  csv-filename: exam-questions-test.csv

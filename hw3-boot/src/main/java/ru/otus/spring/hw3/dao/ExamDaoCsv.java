@@ -3,9 +3,10 @@ package ru.otus.spring.hw3.dao;
 import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
+import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
+import ru.otus.spring.hw3.config.ExamConfig;
 import ru.otus.spring.hw3.domain.Exam;
 import ru.otus.spring.hw3.domain.Question;
 import ru.otus.spring.hw3.util.Utils;
@@ -15,13 +16,17 @@ import java.io.InputStream;
 import java.io.UncheckedIOException;
 
 @Setter
+@Getter
 @Repository
 public class ExamDaoCsv implements ExamDao {
 
-    @Value("${csv.filename}")
     private String fileName;
     private CsvMapper csvMapper = new CsvMapper();
     private CsvSchema csvSchema = CsvSchema.emptySchema().withHeader();
+
+    public ExamDaoCsv(ExamConfig examConfig) {
+        this.fileName = examConfig.getCsvFilename();
+    }
 
     @Override
     public Exam loadFromFile() {
