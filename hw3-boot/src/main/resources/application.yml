@@ -1,0 +1,9 @@
+csv:
+  filename: exam-questions.csv
+exam:
+  minscore: 3
+
+spring:
+  output:
+    ansi:
+      enabled: always
