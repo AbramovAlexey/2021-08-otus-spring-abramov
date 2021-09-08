@@ -4,7 +4,7 @@ import ru.otus.spring.hw2.domain.Exam;
 
 public interface ExamService {
 
-    Exam loadFromFile() ;
+    Exam loadFromSource() ;
 
     boolean startExam();
 

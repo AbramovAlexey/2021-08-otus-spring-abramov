@@ -3,36 +3,32 @@ package ru.otus.spring.hw2.dao;
 import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
-import lombok.Setter;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 import ru.otus.spring.hw2.domain.Exam;
 import ru.otus.spring.hw2.domain.Question;
-import ru.otus.spring.hw2.util.Utils;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
 
-@Setter
-@Repository
-public class ExamDaoCsv implements ExamDao {
+@Component
+public class ExamTransformerCsv implements ExamTransformer{
 
-    @Value("${csv.filename}")
-    private String fileName;
+    private SourceReader sourceReader;
     private CsvMapper csvMapper = new CsvMapper();
     private CsvSchema csvSchema = CsvSchema.emptySchema().withHeader();
 
+    public ExamTransformerCsv(SourceReader sourceReader) {
+        this.sourceReader = sourceReader;
+    }
+
     @Override
-    public Exam loadFromFile() {
-        if (fileName == null || fileName.isBlank()) {
-            throw new IllegalArgumentException("File name must not be null");
-        }
+    public Exam transform() {
         Exam newExam = new Exam();
-        try (InputStream inputStream = Utils.getResourceByName(fileName)) {
+        try (InputStream inputStream = sourceReader.getSourceStream()) {
             MappingIterator<Question> questionList = csvMapper.readerFor(Question.class)
-                                                              .with(csvSchema)
-                                                              .readValues(inputStream);
+                    .with(csvSchema)
+                    .readValues(inputStream);
             questionList.forEachRemaining(newExam::addQuestion);
         } catch (IOException exception) {
             throw new UncheckedIOException("Unable to read source csv file", exception);

@@ -17,22 +17,25 @@ import java.util.Scanner;
 @Getter
 @Setter
 @Service
-@RequiredArgsConstructor
 public class ExamServiceImpl implements ExamService {
 
-    private final ExamDao examDao;
+    private ExamDao examDao;
 
     @Value("${exam.minscore}")
     private int minScore;
 
+    public ExamServiceImpl(ExamDao examDao) {
+        this.examDao = examDao;
+    }
+
     @Override
-    public Exam loadFromFile(){
-        return examDao.loadFromFile();
+    public Exam loadFromSource(){
+        return examDao.loadFromSource();
     }
 
     @Override
     public boolean startExam() {
-        Exam exam = loadFromFile();
+        Exam exam = loadFromSource();
         Scanner scanner = new Scanner(System.in);
         System.out.println("Start testing.");
         System.out.println("Enter your full name");
