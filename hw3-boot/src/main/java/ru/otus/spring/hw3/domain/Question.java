@@ -2,7 +2,6 @@ package ru.otus.spring.hw3.domain;
 
 import lombok.*;
 
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Getter

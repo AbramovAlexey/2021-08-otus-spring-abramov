@@ -1,7 +1,6 @@
-app:
+exam:
   minscore: 3
-  csv-filename: exam-questions.csv
-  locale-tag : ru-RU
+  csv-filename: exam-questions_ru.csv
 
 spring:
   output:

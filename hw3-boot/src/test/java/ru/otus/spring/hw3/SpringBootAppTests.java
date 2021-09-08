@@ -31,7 +31,7 @@ class SpringBootAppTests {
 	void allRowsLoaded() {
 		Exam exam = examService.loadFromFile();
 		Assertions.assertThat(exam).isNotNull();
-		Assertions.assertThat(exam.getQuestions()).hasSize(2);
+		Assertions.assertThat(exam.getQuestions()).hasSize(5);
 	}
 
 	@Test
@@ -49,7 +49,10 @@ class SpringBootAppTests {
 		examService.setMinScore(1);
 		List<String> answers = new ArrayList<>();
 		answers.add("Ivan Ivanov");
+		answers.add("1");
+		answers.add("2");
 		answers.add("3");
+		answers.add("1");
 		answers.add("1");
 		//Scanner нельзя "замокировать", подменим для него входной поток
 		System.setIn(new ByteArrayInputStream(answers.stream()

@@ -9,10 +9,9 @@ import org.springframework.stereotype.Component;
 @Component
 @Getter
 @Setter
-public class AppConfig {
+public class ExamConfig {
 
     private String csvFilename;
     private int minScore;
-    private String localeTag;
 
 }

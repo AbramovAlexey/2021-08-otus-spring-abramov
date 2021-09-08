@@ -3,7 +3,7 @@ package ru.otus.spring.hw3.service;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Service;
-import ru.otus.spring.hw3.config.AppConfig;
+import ru.otus.spring.hw3.config.ExamConfig;
 import ru.otus.spring.hw3.dao.ExamDao;
 import ru.otus.spring.hw3.domain.Exam;
 import ru.otus.spring.hw3.domain.Question;
@@ -22,7 +22,7 @@ public class ExamServiceImpl implements ExamService {
     private int minScore;
     private LocalizationService localizationService;
 
-    public ExamServiceImpl(ExamDao examDao, AppConfig examConfig, LocalizationService localizationService) {
+    public ExamServiceImpl(ExamDao examDao, ExamConfig examConfig, LocalizationService localizationService) {
         this.examDao = examDao;
         this.minScore = examConfig.getMinScore();
         this.localizationService = localizationService;
@@ -38,29 +38,29 @@ public class ExamServiceImpl implements ExamService {
         Exam exam = loadFromFile();
         Scanner scanner = new Scanner(System.in);
         System.out.println(localizationService.getMessage("exam.start"));
-        System.out.println("Enter your full name");
+        System.out.println(localizationService.getMessage("exam.enter"));
         String studentName = scanner.nextLine();
         int size = exam.getQuestions().size();
         int rightAnswers = 0;
         for (int i = 0; i < size ; i++) {
             int userAnswer;
             Question question = exam.getQuestions().get(i);
-            System.out.println("Question №"+ (i + 1) + " of " + size);
+            System.out.println(localizationService.getMessage("exam.question",(i + 1),  size));
             ask(question);
             try {
                 userAnswer = Integer.parseInt(scanner.nextLine());
                 rightAnswers += checkAnswer(question, userAnswer) ? 1 : 0;
             } catch (NumberFormatException numberFormatException) {
-                System.out.println("Wrong input, answer ignored");
+                System.out.println(localizationService.getMessage("exam.wrong"));
             }
             System.out.println();
         }
-        System.out.println("Correct answers - " + rightAnswers + ".");
+        System.out.println(localizationService.getMessage("exam.correct",rightAnswers));
         if (rightAnswers >= minScore) {
-            System.out.println(studentName + " passed test.");
+            System.out.println(localizationService.getMessage("exam.passed", studentName));
             return true;
         } else {
-            System.out.println(studentName + " failed test.");
+            System.out.println(localizationService.getMessage("exam.failed", studentName));
             return false;
         }
     }
@@ -81,7 +81,7 @@ public class ExamServiceImpl implements ExamService {
 
     private boolean checkAnswer(Question question, int userAnswer) {
         String variant = question.getMapVariants().get(userAnswer);
-        return variant == null ? false : variant.equals(question.getAnswer());
+        return variant != null && variant.equals(question.getAnswer());
     }
 
 }

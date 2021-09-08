@@ -3,28 +3,29 @@ package ru.otus.spring.hw3.service;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
-import ru.otus.spring.hw3.config.AppConfig;
 
 import java.util.Locale;
 
 @Service
 public class LocalizationServiceImpl implements LocalizationService{
 
-    private Locale locale;
-    private MessageSource messageSource;
+    private final Locale locale = LocaleContextHolder.getLocale();
+    private final MessageSource messageSource;
 
-    public LocalizationServiceImpl(AppConfig appConfig, MessageSource messageSource) {
-        if (appConfig.getLocaleTag() == null) {
-            this.locale = LocaleContextHolder.getLocale();
-        } else {
-            this.locale = Locale.forLanguageTag(appConfig.getLocaleTag());
-        }
-        this.messageSource = messageSource;
+    public LocalizationServiceImpl(MessageSource messageSource) {
+       this.messageSource = messageSource;
     }
 
     @Override
-    public String getMessage(String messageLabel, String[] params) {
-        return messageSource.getMessage(messageLabel, params, locale);
+    public String getMessage(String messageLabel, Object ... params) {
+        String[] parameters = null;
+        if (params != null) {
+            parameters = new String[params.length];
+            for (int i = 0; i < params.length; i++) {
+                parameters[i] = String.valueOf(params[i]);
+            }
+        }
+        return messageSource.getMessage(messageLabel, parameters, locale);
     }
 
     @Override
