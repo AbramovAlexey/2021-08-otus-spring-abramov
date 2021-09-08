@@ -30,7 +30,7 @@ public class ExamServiceImpl implements ExamService {
 
     @Override
     public Exam loadFromFile(){
-        return examDao.loadFromFile();
+        return examDao.loadFromSource();
     }
 
     @Override

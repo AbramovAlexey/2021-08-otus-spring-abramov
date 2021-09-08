@@ -5,7 +5,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import ru.otus.spring.hw3.dao.ExamDaoCsv;
+import ru.otus.spring.hw3.dao.SourceReaderImpl;
 import ru.otus.spring.hw3.domain.Exam;
 import ru.otus.spring.hw3.service.ExamServiceImpl;
 
@@ -22,7 +22,7 @@ class SpringBootAppTests {
 	}
 
 	@Autowired
-	private ExamDaoCsv examDaoCsv;
+	private SourceReaderImpl sourceReader;
 
 	@Autowired
 	private ExamServiceImpl examService;
@@ -36,11 +36,11 @@ class SpringBootAppTests {
 
 	@Test
 	void shouldRaiseExceptionWhenFileNotExists(){
-		String name = examDaoCsv.getFileName();
-		examDaoCsv.setFileName("");
+		String name = sourceReader.getFileName();
+		sourceReader.setFileName("");
 		Assertions.assertThatIllegalArgumentException()
 				.isThrownBy(examService::loadFromFile);
-		examDaoCsv.setFileName(name);
+		sourceReader.setFileName(name);
 	}
 
 	@SneakyThrows
