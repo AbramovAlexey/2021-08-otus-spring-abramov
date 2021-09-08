@@ -1,8 +1,11 @@
-exam:
+app:
   minscore: 3
   csv-filename: exam-questions.csv
+  locale-tag : ru-RU
 
 spring:
   output:
     ansi:
       enabled: always
+  messages:
+    basename: i18n/messages

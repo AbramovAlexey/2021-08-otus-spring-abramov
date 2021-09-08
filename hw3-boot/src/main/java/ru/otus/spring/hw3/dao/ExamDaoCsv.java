@@ -6,7 +6,7 @@ import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Repository;
-import ru.otus.spring.hw3.config.ExamConfig;
+import ru.otus.spring.hw3.config.AppConfig;
 import ru.otus.spring.hw3.domain.Exam;
 import ru.otus.spring.hw3.domain.Question;
 import ru.otus.spring.hw3.util.Utils;
@@ -24,7 +24,7 @@ public class ExamDaoCsv implements ExamDao {
     private CsvMapper csvMapper = new CsvMapper();
     private CsvSchema csvSchema = CsvSchema.emptySchema().withHeader();
 
-    public ExamDaoCsv(ExamConfig examConfig) {
+    public ExamDaoCsv(AppConfig examConfig) {
         this.fileName = examConfig.getCsvFilename();
     }
 

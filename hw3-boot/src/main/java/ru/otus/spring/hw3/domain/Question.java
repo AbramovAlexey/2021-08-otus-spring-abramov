@@ -17,25 +17,4 @@ public class Question {
     private String answer;
     private Map<Integer, String> mapVariants;
 
-    public void ask() {
-        System.out.println(getFormulation());
-        initMapVariants();
-        mapVariants.entrySet()
-                   .forEach(entry -> System.out.println(entry.getKey() + ". " + entry.getValue()));
-    }
-
-    public boolean checkAnswer(int userAnswer) {
-        String variant = mapVariants.get(userAnswer);
-        return variant == null ? false : variant.equals(answer);
-    }
-
-    private void initMapVariants() {
-        if (mapVariants == null) {
-            mapVariants = new LinkedHashMap<>();
-            mapVariants.put(1, variant1);
-            mapVariants.put(2, variant2);
-            mapVariants.put(3, variant3);
-        }
-    }
-
 }
