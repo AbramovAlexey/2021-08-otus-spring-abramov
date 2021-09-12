@@ -5,7 +5,9 @@ import lombok.Setter;
 import org.springframework.stereotype.Component;
 import ru.otus.spring.hw3.config.ExamConfig;
 
-import java.io.InputStream;
+import java.io.*;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @Setter
@@ -19,13 +21,22 @@ public class SourceReaderImpl implements SourceReader {
     }
 
     @Override
-    public InputStream getSourceStream() {
+    public List<String> getSourceRows() {
+        List<String> stringList =  null;
         if (fileName == null || fileName.isBlank()) {
             throw new IllegalArgumentException("File name must not be null");
         }
-        return this.getClass()
-                .getClassLoader()
-                .getResourceAsStream(fileName);
+       try (InputStream inputStream = this.getClass()
+                                     .getClassLoader()
+                                     .getResourceAsStream(fileName);
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+       ) {
+           stringList = bufferedReader.lines()
+                                      .collect(Collectors.toList());
+       } catch (IOException e) {
+           throw new UncheckedIOException("Unable to read source file", e);
+       }
+        return stringList;
     }
-
 }

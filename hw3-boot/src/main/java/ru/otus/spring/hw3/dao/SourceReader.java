@@ -1,9 +1,9 @@
 package ru.otus.spring.hw3.dao;
 
-import java.io.InputStream;
+import java.util.List;
 
 public interface SourceReader {
 
-    InputStream getSourceStream();
+    List<String> getSourceRows();
 
 }

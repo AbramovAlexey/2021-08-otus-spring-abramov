@@ -8,30 +8,29 @@ import ru.otus.spring.hw3.domain.Exam;
 import ru.otus.spring.hw3.domain.Question;
 
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.StringReader;
 import java.io.UncheckedIOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class ExamTransformerCsv implements ExamTransformer{
 
-    private SourceReader sourceReader;
     private CsvMapper csvMapper = new CsvMapper();
     private CsvSchema csvSchema = CsvSchema.emptySchema().withHeader();
 
-    public ExamTransformerCsv(SourceReader sourceReader) {
-        this.sourceReader = sourceReader;
-    }
-
     @Override
-    public Exam transform() {
+    public Exam transform(List<String> rows) {
         Exam newExam = new Exam();
-        try (InputStream inputStream = sourceReader.getSourceStream()) {
+        String uniteRows = rows.stream()
+                               .collect(Collectors.joining(System.lineSeparator()));
+        try {
             MappingIterator<Question> questionList = csvMapper.readerFor(Question.class)
                     .with(csvSchema)
-                    .readValues(inputStream);
+                    .readValues(new StringReader(uniteRows));
             questionList.forEachRemaining(newExam::addQuestion);
         } catch (IOException exception) {
-            throw new UncheckedIOException("Unable to read source csv file", exception);
+            throw new UncheckedIOException("Unable to parse csv", exception);
         }
         return newExam;
     }
