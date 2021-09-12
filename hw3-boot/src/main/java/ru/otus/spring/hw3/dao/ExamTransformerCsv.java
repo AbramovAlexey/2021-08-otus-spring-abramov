@@ -16,8 +16,8 @@ import java.util.stream.Collectors;
 @Component
 public class ExamTransformerCsv implements ExamTransformer{
 
-    private CsvMapper csvMapper = new CsvMapper();
-    private CsvSchema csvSchema = CsvSchema.emptySchema().withHeader();
+    private final CsvMapper csvMapper = new CsvMapper();
+    private final CsvSchema csvSchema = CsvSchema.emptySchema().withHeader();
 
     @Override
     public Exam transform(List<String> rows) {

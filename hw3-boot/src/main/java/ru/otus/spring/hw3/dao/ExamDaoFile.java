@@ -6,8 +6,8 @@ import ru.otus.spring.hw3.domain.Exam;
 @Component
 public class ExamDaoFile implements ExamDao {
 
-    private ExamTransformer examTransformer;
-    private SourceReader sourceReader;
+    private final ExamTransformer examTransformer;
+    private final SourceReader sourceReader;
 
     public ExamDaoFile(ExamTransformer examTransformer, SourceReader sourceReader) {
         this.examTransformer = examTransformer;

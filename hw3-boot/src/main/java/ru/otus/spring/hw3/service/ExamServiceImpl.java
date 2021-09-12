@@ -20,7 +20,7 @@ public class ExamServiceImpl implements ExamService {
 
     private final ExamDao examDao;
     private int minScore;
-    private LocalizationService localizationService;
+    private final LocalizationService localizationService;
 
     public ExamServiceImpl(ExamDao examDao, ExamConfig examConfig, LocalizationService localizationService) {
         this.examDao = examDao;
