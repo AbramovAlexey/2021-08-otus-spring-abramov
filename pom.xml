@@ -41,5 +41,6 @@
 
     <modules>
         <module>hw1-ioc</module>
+        <module>hw2-conf</module>
     </modules>
 </project>
