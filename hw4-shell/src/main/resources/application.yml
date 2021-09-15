@@ -1,0 +1,10 @@
+exam:
+  minscore: 3
+  csv-filename: exam-questions_ru.csv
+
+spring:
+  output:
+    ansi:
+      enabled: always
+  messages:
+    basename: i18n/messages
