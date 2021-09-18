@@ -47,5 +47,7 @@
     <modules>
         <module>hw1-ioc</module>
         <module>hw2-conf</module>
+        <module>hw3-boot</module>
+        <module>hw4-shell</module>
     </modules>
 </project>
