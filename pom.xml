@@ -49,5 +49,6 @@
         <module>hw2-conf</module>
         <module>hw3-boot</module>
         <module>hw4-shell</module>
+        <module>hw5-jdbc</module>
     </modules>
 </project>
