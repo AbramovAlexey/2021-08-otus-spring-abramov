@@ -11,33 +11,33 @@ import java.util.List;
 @RequiredArgsConstructor
 public class GenreServiceImpl implements GenreService{
 
-    private final GenreDao GenreDao;
+    private final GenreDao genreDao;
 
     @Override
     public long create(String name) {
         Genre genre = new Genre(0, name);
-        return GenreDao.insert(genre);
+        return genreDao.insert(genre);
     }
 
     @Override
     public void update(long id, String name) {
         Genre genre = new Genre(id, name);
-        GenreDao.update(genre);
+        genreDao.update(genre);
     }
 
     @Override
     public Genre readById(long id) {
-        return GenreDao.getById(id);
+        return genreDao.getById(id);
     }
 
     @Override
     public List<Genre> readAll() {
-        return GenreDao.getAll();
+        return genreDao.getAll();
     }
 
     @Override
     public void delete(long id) {
-        GenreDao.deleteById(id);
+        genreDao.deleteById(id);
     }
 
 }
