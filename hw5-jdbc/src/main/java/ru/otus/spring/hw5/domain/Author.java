@@ -1,12 +1,9 @@
 package ru.otus.spring.hw5.domain;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
-@RequiredArgsConstructor
+
+@Data
 public class Author {
 
     private final long id;

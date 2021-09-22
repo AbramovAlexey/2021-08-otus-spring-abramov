@@ -31,7 +31,7 @@ public class AuthorDaoJDBC implements AuthorDao{
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
         mapSqlParameterSource.addValue("name", author.getFullName());
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        parameterJdbcOperations.update("insert into Authors (name) values (:name)",
+        parameterJdbcOperations.update("insert into Authors (fullName) values (:name)",
                 mapSqlParameterSource, keyHolder);
         return keyHolder.getKey().longValue();
     }

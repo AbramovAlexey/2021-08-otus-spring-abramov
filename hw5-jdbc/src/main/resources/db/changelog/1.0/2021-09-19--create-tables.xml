@@ -5,7 +5,7 @@
 
     <changeSet id="01" author="aabramov">
 
-        <createTable tableName="authors">
+        <createTable tableName="Authors">
             <column name="id" type="int" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
@@ -13,6 +13,33 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+
+        <createTable tableName="Genres">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="Books">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="authorId" type="int"/>
+            <column name="genreId" type="int"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="Books" baseColumnNames="authorId"
+                                 constraintName="author_fk" onDelete="SET NULL"
+                                 referencedTableName="Authors" referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="Books" baseColumnNames="genreId"
+                                 constraintName="genre_fk" onDelete="SET NULL"
+                                 referencedTableName="Genres" referencedColumnNames="id"/>
 
     </changeSet>
 
