@@ -15,14 +15,14 @@ public class GenreServiceImpl implements GenreService{
 
     @Override
     public long create(String name) {
-        Genre Genre = new Genre(0, name);
-        return GenreDao.insert(Genre);
+        Genre genre = new Genre(0, name);
+        return GenreDao.insert(genre);
     }
 
     @Override
-    public void update(long id, String fullName) {
-        Genre Genre = new Genre(id, fullName);
-        GenreDao.update(Genre);
+    public void update(long id, String name) {
+        Genre genre = new Genre(id, name);
+        GenreDao.update(genre);
     }
 
     @Override

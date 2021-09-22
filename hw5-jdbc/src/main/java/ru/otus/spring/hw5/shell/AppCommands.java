@@ -72,8 +72,8 @@ public class AppCommands {
 
     @ShellMethod(value = "Get Genre by id", key = "readGenre")
     public String readGenre(@ShellOption long id) {
-        Genre Genre = genreService.readById(id);
-        return Genre.toString();
+        Genre genre = genreService.readById(id);
+        return genre.toString();
     }
 
     @ShellMethod(value = "Update Genre by id with fields", key = "updateGenre")

@@ -2,7 +2,6 @@ package ru.otus.spring.hw5.domain;
 
 import lombok.Data;
 
-
 @Data
 public class Author {
 
