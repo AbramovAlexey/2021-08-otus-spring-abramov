@@ -38,12 +38,12 @@ public class AuthorDaoJDBC implements AuthorDao{
 
     @Override
     public Author getById(long id) {
-        return parameterJdbcOperations.queryForObject("select * from Authors where id = :id", Map.of("id", id), new AuthorMapper());
+        return parameterJdbcOperations.queryForObject("select id, fullName from Authors where id = :id", Map.of("id", id), new AuthorMapper());
     }
 
     @Override
     public List<Author> getAll() {
-        return parameterJdbcOperations.query("select * from Authors", new AuthorMapper());
+        return parameterJdbcOperations.query("select id, fullName from Authors", new AuthorMapper());
     }
 
     @Override

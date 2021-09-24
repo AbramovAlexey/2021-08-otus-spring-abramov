@@ -38,12 +38,12 @@ public class GenreDaoJDBC implements GenreDao{
 
     @Override
     public Genre getById(long id) {
-        return parameterJdbcOperations.queryForObject("select * from Genres where id = :id", Map.of("id", id), new GenreMapper());
+        return parameterJdbcOperations.queryForObject("select id, name from Genres where id = :id", Map.of("id", id), new GenreMapper());
     }
 
     @Override
     public List<Genre> getAll() {
-        return parameterJdbcOperations.query("select * from Genres", new GenreMapper());
+        return parameterJdbcOperations.query("select id, name from Genres", new GenreMapper());
     }
 
     @Override

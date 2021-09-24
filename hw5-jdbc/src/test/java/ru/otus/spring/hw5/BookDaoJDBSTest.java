@@ -1,5 +1,7 @@
 package ru.otus.spring.hw5;
 
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +21,7 @@ import static org.assertj.core.api.Assertions.*;
 
 @DisplayName("Dao для работы с книгами должно")
 @JdbcTest
-@Import({BookDaoJDBC.class, GenreDaoJDBC.class, AuthorDaoJDBC.class})
+@Import({BookDaoJDBC.class})
 public class BookDaoJDBSTest {
 
     private static final int EXPECTED_BOOK_COUNT = 1;
@@ -27,10 +29,17 @@ public class BookDaoJDBSTest {
     private static final int EXISTING_AUTHOR_ID = 1;
     private static final int NOT_EXISTING_AUTHOR_ID = 500;
     private static final int EXISTING_GENRE_ID = 1;
-    private static final String EXISTING_BOOK_NAME = "War and Peace";    
+    private static final String EXISTING_BOOK_NAME = "War and Peace";
+    private static RecursiveComparisonConfiguration recursiveComparisonConfiguration;
 
     @Autowired
     private BookDao bookDao;
+
+    @BeforeAll
+    public static void beforeAll() {
+        recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();
+        recursiveComparisonConfiguration.ignoreFields("author.fullName", "genre.name");
+    }
 
     @DisplayName("возвращать ожидаемое количество книг в БД")
     @Test
@@ -61,7 +70,8 @@ public class BookDaoJDBSTest {
     void shouldReturnExpectedBookById() {
         Book expectedBook = new Book(EXISTING_BOOK_ID, EXISTING_BOOK_NAME, EXISTING_AUTHOR_ID, EXISTING_GENRE_ID);
         Book actualBook = bookDao.getById(expectedBook.getId());
-        assertThat(actualBook).usingRecursiveComparison().isEqualTo(expectedBook);
+        assertThat(actualBook).usingRecursiveComparison(recursiveComparisonConfiguration)
+                              .isEqualTo(expectedBook);
     }
 
     @DisplayName("удалять заданную книгу по её id")
@@ -80,7 +90,7 @@ public class BookDaoJDBSTest {
         Book expectedBook = new Book(EXISTING_BOOK_ID, EXISTING_BOOK_NAME, EXISTING_AUTHOR_ID, EXISTING_GENRE_ID);
         List<Book> actualBookList = bookDao.getAll();
         assertThat(actualBookList)
-                .usingDefaultElementComparator()
+                .usingRecursiveFieldByFieldElementComparator(recursiveComparisonConfiguration)
                 .containsExactlyInAnyOrder(expectedBook);
     }
 

@@ -42,12 +42,17 @@ public class BookDaoJDBC implements BookDao{
 
     @Override
     public Book getById(long id) {
-        return parameterJdbcOperations.queryForObject("select * from Books where id = :id", Map.of("id", id), new BookMapper());
+        return parameterJdbcOperations.queryForObject("select b.id, b.name, b.authorId, b.genreId, a.fullName as authorName, g.name as genreName from Books b " +
+                                                            "join Authors a on a.id = b.authorId " +
+                                                            "join Genres g on g.id = b.genreId " +
+                                                         "where b.id = :id ", Map.of("id", id), new BookMapper());
     }
 
     @Override
     public List<Book> getAll() {
-        return parameterJdbcOperations.query("select * from Books", new BookMapper());
+        return parameterJdbcOperations.query("select b.id, b.name, b.authorId, b.genreId, a.fullName as authorName, g.name as genreName from Books b " +
+                                                    "join Authors a on a.id = b.authorId " +
+                                                    "join Genres g on g.id = b.genreId ", new BookMapper());
     }
 
     @Override
@@ -67,7 +72,8 @@ public class BookDaoJDBC implements BookDao{
         @Override
         public Book mapRow(ResultSet resultSet, int i) throws SQLException {
             return new Book(resultSet.getLong("id"),resultSet.getString("name"),
-                            new Author(resultSet.getLong("authorId"), null), new Genre(resultSet.getLong("genreId"), null));
+                            new Author(resultSet.getLong("authorId"), resultSet.getString("authorName")),
+                            new Genre(resultSet.getLong("genreId"), resultSet.getString("genreName")));
         }
 
     }
