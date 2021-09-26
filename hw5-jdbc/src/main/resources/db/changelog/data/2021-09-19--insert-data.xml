@@ -1,0 +1,22 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <changeSet id="02" author="aabramov">
+
+        <insert tableName="Authors">
+            <column name="fullName" value="Tolkien"/>
+        </insert>
+        <insert tableName="Genres">
+            <column name="name" value="Fantasy"/>
+        </insert>
+        <insert tableName="Books">
+            <column name="name" value="LOTR"/>
+            <column name="authorId" value="1"/>
+            <column name="genreId" value="1"/>
+        </insert>
+
+    </changeSet>
+
+</databaseChangeLog>
