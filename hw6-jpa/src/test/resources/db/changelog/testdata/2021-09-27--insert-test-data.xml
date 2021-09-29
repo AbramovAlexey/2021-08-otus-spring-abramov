@@ -17,6 +17,18 @@
         <insert tableName="Books">
             <column name = "name" value="War and Peace"/>
         </insert>
+        <insert tableName="Books_authors">
+            <column name = "book_id" value="1"/>
+            <column name = "author_id" value="1"/>
+        </insert>
+        <insert tableName="Books_genres">
+            <column name = "book_id" value="1"/>
+            <column name = "genre_id" value="1"/>
+        </insert>
+        <insert tableName="Book_comments">
+            <column name = "content" value="Bad book"/>
+            <column name = "book_id" value="1"/>
+        </insert>
     </changeSet>
 
 </databaseChangeLog>

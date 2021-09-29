@@ -1,12 +1,15 @@
 package ru.otus.spring.hw6.model;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "book_comments")
+@AllArgsConstructor
+@NoArgsConstructor
 public class BookComment {
 
     @Id
@@ -15,5 +18,10 @@ public class BookComment {
 
     @Column(name = "content", nullable = false)
     private String content;
+
+    @ManyToOne
+    @JoinColumn(name = "book_id")
+    @ToString.Exclude
+    private Book book;
 
 }

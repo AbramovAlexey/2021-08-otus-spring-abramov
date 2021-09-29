@@ -43,7 +43,7 @@
         </createTable>
 
         <createTable tableName="book_comments">
-            <column name="id" type="bigint"/>
+            <column name="id" type="bigint" autoIncrement="true"/>
             <column name="book_id" type="bigint"/>
             <column name="content" type="varchar(500)"/>
         </createTable>
