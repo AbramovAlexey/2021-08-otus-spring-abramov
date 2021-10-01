@@ -6,10 +6,17 @@ import java.util.List;
 
 public interface BookService {
 
-    long create(String name, long authorId, long genreId);
-    boolean update(long id, String name, long authorId, long genreId);
+    long create(String name);
+    boolean update(long id, String name);
     Book readById(long id);
     List<Book> readAll();
     void delete(long id);
+    boolean addBookComment(long id, String content);
+    boolean addBookGenre(long id, long genreId);
+    boolean addBookAuthor(long id, long authorId);
+
+    boolean deleteBookComment(long id, long commentId);
+    boolean deleteBookGenre(long id, long genreId);
+    boolean deleteBookAuthor(long id, long authorId);
 
 }

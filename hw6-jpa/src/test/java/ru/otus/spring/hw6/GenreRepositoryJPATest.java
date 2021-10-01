@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class GenreRepositoryJPATest {
 
     private static final int EXPECTED_GENRE_COUNT = 1;
-    private static final int EXISTING_GENRE_ID = 1;
+    private static final long EXISTING_GENRE_ID = 1;
     private static final String EXISTING_GENRE_NAME = "Fantasy";
 
     @Autowired

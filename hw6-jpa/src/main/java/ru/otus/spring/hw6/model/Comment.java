@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Table(name = "book_comments")
 @AllArgsConstructor
 @NoArgsConstructor
-public class BookComment {
+public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

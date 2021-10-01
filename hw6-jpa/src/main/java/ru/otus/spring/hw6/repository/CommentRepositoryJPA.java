@@ -3,7 +3,7 @@ package ru.otus.spring.hw6.repository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
-import ru.otus.spring.hw6.model.Author;
+import ru.otus.spring.hw6.model.Comment;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -14,41 +14,41 @@ import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
-public class AuthorRepositoryJPA implements AuthorRepository{
+public class CommentRepositoryJPA implements CommentRepository {
 
     @PersistenceContext
     private final EntityManager em;
 
     @Override
     public long count() {
-        return em.createQuery("select count(a) from Author a", Long.class)
+        return em.createQuery("select count(bc) from Comment bc", Long.class)
                  .getSingleResult();
     }
 
     @Override
-    public Author save(Author author) {
-        if (author.getId() <= 0) {
-            em.persist(author);
-            return author;
+    public Comment save(Comment comment) {
+        if (comment.getId() <= 0) {
+            em.persist(comment);
+            return comment;
         } else {
-            return em.merge(author);
+            return em.merge(comment);
         }
     }
 
     @Override
-    public Optional<Author> findById(long id) {
-        return Optional.ofNullable(em.find(Author.class, id));
+    public Optional<Comment> findById(long id) {
+        return Optional.ofNullable(em.find(Comment.class, id));
     }
 
     @Override
-    public List<Author> findAll() {
-        TypedQuery<Author> query = em.createQuery("select a from Author a", Author.class);
+    public List<Comment> findAll() {
+        TypedQuery<Comment> query = em.createQuery("select bc from Comment bc", Comment.class);
         return query.getResultList();
     }
 
     @Override
     public void deleteById(long id) {
-        Query query = em.createQuery("delete from Author a where a.id = :id");
+        Query query = em.createQuery("delete from Comment a where a.id = :id");
         query.setParameter("id", id);
         query.executeUpdate();
     }

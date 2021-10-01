@@ -21,9 +21,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class AuthorRepositoryJPATest {
 
     private static final int AUTHORS_COUNT = 2;
-    private static final int EXISTING_AUTHOR_ID = 1;
+    private static final long EXISTING_AUTHOR_ID = 1;
     private static final String EXISTING_AUTHOR_NAME = "Tolstoy";
-    public static final int EXISTING_SECOND_AUTHOR_ID = 2;
+    public static final long EXISTING_SECOND_AUTHOR_ID = 2;
     public static final String EXISTING_SECOND_AUTHOR_NAME = "Lermontov";
 
     @Autowired

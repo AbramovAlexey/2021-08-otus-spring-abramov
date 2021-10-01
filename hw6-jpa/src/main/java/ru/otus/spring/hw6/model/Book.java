@@ -17,6 +17,10 @@ import java.util.List;
 @NoArgsConstructor
 public class Book {
 
+    public Book(String name) {
+        this(0, name, null, null, null);
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -40,8 +44,8 @@ public class Book {
             inverseJoinColumns = @JoinColumn(name = "genre_id", referencedColumnName = "id"))
     private List<Genre> genres;
 
-    @OneToMany(targetEntity = BookComment.class, cascade = CascadeType.ALL,
+    @OneToMany(targetEntity = Comment.class, orphanRemoval = true,
                fetch = FetchType.LAZY, mappedBy = "book")
-    private List<BookComment> bookComments;
+    private List<Comment> comments;
 
 }

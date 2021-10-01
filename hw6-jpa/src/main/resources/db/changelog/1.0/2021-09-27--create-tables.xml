@@ -49,7 +49,7 @@
         </createTable>
 
         <addForeignKeyConstraint baseTableName="book_comments" baseColumnNames="book_id"
-                                 constraintName="book_comments_fk"
+                                 constraintName="book_comments_fk" onDelete="CASCADE"
                                  referencedTableName="Books" referencedColumnNames="id"/>
 
         <addForeignKeyConstraint baseTableName="Books_authors" baseColumnNames="book_id"

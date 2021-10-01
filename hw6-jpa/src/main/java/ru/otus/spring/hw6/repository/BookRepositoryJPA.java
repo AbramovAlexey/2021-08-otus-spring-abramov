@@ -1,6 +1,7 @@
 package ru.otus.spring.hw6.repository;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import ru.otus.spring.hw6.model.Book;
 
@@ -8,10 +9,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-@Repository
+@Component
 @RequiredArgsConstructor
 public class BookRepositoryJPA implements BookRepository{
 
@@ -41,7 +43,7 @@ public class BookRepositoryJPA implements BookRepository{
 
     @Override
     public List<Book> findAll() {
-        TypedQuery<Book> query = em.createQuery("select b from Book b join fetch b.authors join fetch b.genres ", Book.class);
+        TypedQuery<Book> query = em.createQuery("select b from Book b", Book.class);
         return query.getResultList();
     }
 
@@ -50,6 +52,22 @@ public class BookRepositoryJPA implements BookRepository{
         Query query = em.createQuery("delete from Book b where b.id = :id");
         query.setParameter("id", id);
         query.executeUpdate();
+    }
+
+    @Override
+    public List<Book> findWithGenreName(String genreName) {
+        TypedQuery<Book> query = em.createQuery("select b from Book b join fetch b.genres g " +
+                                                   "where g.name = :name", Book.class);
+        query.setParameter("name", genreName);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Book> findWithAuthorName(String authorName) {
+        TypedQuery<Book> query = em.createQuery("select b from Book b join fetch b.authors a " +
+                                                   "where a.fullName = :name", Book.class);
+        query.setParameter("name", authorName);
+        return query.getResultList();
     }
 
 }
