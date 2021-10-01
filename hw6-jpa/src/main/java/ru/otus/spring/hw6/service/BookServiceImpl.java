@@ -31,13 +31,10 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
-    public boolean update(long id, String name) {
+    public void update(long id, String name) {
         var book = bookRepository.findById(id);
         if (book.isPresent()) {
             book.get().setName(name);
-            return true;
-        } else {
-            return false;
         }
     }
 

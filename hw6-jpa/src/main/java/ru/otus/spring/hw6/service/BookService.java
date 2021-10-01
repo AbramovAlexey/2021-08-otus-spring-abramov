@@ -7,7 +7,7 @@ import java.util.List;
 public interface BookService {
 
     long create(String name);
-    boolean update(long id, String name);
+    void update(long id, String name);
     Book readById(long id);
     List<Book> readAll();
     void delete(long id);

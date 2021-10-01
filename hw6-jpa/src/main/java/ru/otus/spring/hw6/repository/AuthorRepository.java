@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface AuthorRepository {
 
     long count();
-    Author save(Author student);
+    Author save(Author author);
     Optional<Author> findById(long id);
     List<Author> findAll();
     void deleteById(long id);

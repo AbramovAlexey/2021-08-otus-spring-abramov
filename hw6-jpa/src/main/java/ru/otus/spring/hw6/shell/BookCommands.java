@@ -44,11 +44,8 @@ public class BookCommands {
 
     @ShellMethod(value = "Update book by id with fields", key = "updateBook")
     public String updateBook(@ShellOption long id, @ShellOption String name) {
-        if (bookService.update(id, name)) {
-            return "Book has been successfully updated";
-        } else {
-            return "Error during update book";
-        }
+        bookService.update(id, name);
+        return "Book has been successfully updated";
     }
 
     @ShellMethod(value = "Add comment to book", key = "addBookComment")
@@ -79,7 +76,7 @@ public class BookCommands {
     }
 
     @ShellMethod(value = "Remove comment from book", key = "deleteBookComment")
-    public String addBookComment(@ShellOption long id, @ShellOption long commentId) {
+    public String deleteBookComment(@ShellOption long id, @ShellOption long commentId) {
         if (bookService.deleteBookComment(id, commentId)) {
             return "Comment has been successfully removed";
         } else {

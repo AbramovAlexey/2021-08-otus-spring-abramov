@@ -66,8 +66,8 @@ public class BookRepositoryJPATest {
     void shouldCorrectDeleteBookById() {
         var existingBook = bookRepository.findById(EXISTING_BOOK_ID).orElse(null);
         assertThat(existingBook).isNotNull();
-        em.detach(existingBook);
         bookRepository.deleteById(EXISTING_BOOK_ID);
+        em.detach(existingBook);
         assertThat(bookRepository.findById(EXISTING_BOOK_ID).orElse(null)).isNull();
     }
 
