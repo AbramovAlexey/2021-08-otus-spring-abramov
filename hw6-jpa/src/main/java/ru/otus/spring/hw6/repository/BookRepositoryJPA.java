@@ -2,14 +2,11 @@ package ru.otus.spring.hw6.repository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 import ru.otus.spring.hw6.model.Book;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,9 +46,7 @@ public class BookRepositoryJPA implements BookRepository{
 
     @Override
     public void deleteById(long id) {
-        Query query = em.createQuery("delete from Book b where b.id = :id");
-        query.setParameter("id", id);
-        query.executeUpdate();
+        findById(id).ifPresent(book -> em.remove(book));
     }
 
     @Override

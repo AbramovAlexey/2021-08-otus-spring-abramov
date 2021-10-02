@@ -12,7 +12,6 @@ import ru.otus.spring.hw6.utils.Utils;
 import java.util.List;
 
 @ShellComponent
-@Transactional
 @RequiredArgsConstructor
 public class BookCommands {
 
@@ -25,6 +24,7 @@ public class BookCommands {
     }
 
     @ShellMethod(value = "Read all books", key = "readAllBooks")
+    @Transactional(readOnly = true)
     public String readAllBooks() {
         List<Book> books = bookService.readAll();
         return Utils.stringFromList(books);
@@ -37,6 +37,7 @@ public class BookCommands {
     }
 
     @ShellMethod(value = "Get book by id", key = "readBook")
+    @Transactional(readOnly = true)
     public String readBook(@ShellOption long id) {
         Book book = bookService.readById(id);
         return book.toString();

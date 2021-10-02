@@ -67,7 +67,7 @@ public class BookRepositoryJPATest {
         var existingBook = bookRepository.findById(EXISTING_BOOK_ID).orElse(null);
         assertThat(existingBook).isNotNull();
         bookRepository.deleteById(EXISTING_BOOK_ID);
-        em.detach(existingBook);
+        em.flush();
         assertThat(bookRepository.findById(EXISTING_BOOK_ID).orElse(null)).isNull();
     }
 

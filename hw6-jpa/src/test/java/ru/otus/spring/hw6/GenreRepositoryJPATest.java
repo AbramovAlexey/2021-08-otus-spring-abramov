@@ -52,7 +52,7 @@ public class GenreRepositoryJPATest {
         assertThat(existingGenre).isPresent().get().isNotNull();
         em.detach(existingGenre.get());
         genreRepository.deleteById(EXISTING_GENRE_ID);
-        assertThat(genreRepository.findById(EXISTING_GENRE_ID).orElse(null)).isNull();
+        assertThat(genreRepository.findById(EXISTING_GENRE_ID)).isNotPresent();
     }
 
     @DisplayName("возвращать ожидаемый жанр по его id")

@@ -14,7 +14,14 @@
         <insert tableName="Books">
             <column name="name" value="LOTR"/>
         </insert>
-
+        <insert tableName="Books_authors">
+            <column name="book_id" value="1"/>
+            <column name="author_id" value="1"/>
+        </insert>
+        <insert tableName="Books_genres">
+            <column name="book_id" value="1"/>
+            <column name="genre_id" value="1"/>
+        </insert>
     </changeSet>
 
 </databaseChangeLog>

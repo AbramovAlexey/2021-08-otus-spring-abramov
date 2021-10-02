@@ -14,7 +14,6 @@ import java.util.List;
 import static ru.otus.spring.hw6.utils.Utils.checkAnyNull;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class BookServiceImpl implements BookService{
 
@@ -24,6 +23,7 @@ public class BookServiceImpl implements BookService{
     private final AuthorService authorService;
 
     @Override
+    @Transactional
     public long create(String name) {
         Book book = new Book(name);
         bookRepository.save(book);
@@ -31,6 +31,7 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
+    @Transactional
     public void update(long id, String name) {
         var book = bookRepository.findById(id);
         if (book.isPresent()) {
@@ -39,21 +40,25 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Book readById(long id) {
         return bookRepository.findById(id).orElse(null);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Book> readAll() {
         return bookRepository.findAll();
     }
 
     @Override
+    @Transactional
     public void delete(long id) {
         bookRepository.deleteById(id);
     }
 
     @Override
+    @Transactional
     public boolean addBookComment(long id, String content) {
         Book book = readById(id);
         if (checkAnyNull(book)) {
@@ -65,6 +70,7 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
+    @Transactional
     public boolean addBookGenre(long id, long genreId) {
         Book book = readById(id);
         Genre genre = genreService.readById(genreId);
@@ -76,6 +82,7 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
+    @Transactional
     public boolean addBookAuthor(long id, long authorId) {
         Book book = readById(id);
         var author = authorService.readById(authorId);
@@ -87,6 +94,7 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
+    @Transactional
     public boolean deleteBookComment(long id, long commentId) {
         Book book = readById(id);
         Comment comment = commentRepository.findById(commentId).orElse(null);
@@ -98,6 +106,7 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
+    @Transactional
     public boolean deleteBookGenre(long id, long genreId) {
         Book book = readById(id);
         Genre genre = genreService.readById(genreId);
@@ -109,6 +118,7 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
+    @Transactional
     public boolean deleteBookAuthor(long id, long authorId) {
         Book book = readById(id);
         var author = authorService.readById(authorId);

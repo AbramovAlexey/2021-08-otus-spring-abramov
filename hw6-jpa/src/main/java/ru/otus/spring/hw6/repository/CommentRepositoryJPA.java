@@ -2,12 +2,10 @@ package ru.otus.spring.hw6.repository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 import ru.otus.spring.hw6.model.Comment;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
@@ -48,9 +46,7 @@ public class CommentRepositoryJPA implements CommentRepository {
 
     @Override
     public void deleteById(long id) {
-        Query query = em.createQuery("delete from Comment bc where bc.id = :id");
-        query.setParameter("id", id);
-        query.executeUpdate();
+        findById(id).ifPresent(comment -> em.remove(comment));
     }
 
 }

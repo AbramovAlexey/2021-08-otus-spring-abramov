@@ -63,7 +63,7 @@ public class CommentRepositoryJPATest {
         Comment comment = commentRepository.findById(EXISTING_COMMENT_ID).orElse(null);
         assertThat(comment).isNotNull();
         commentRepository.deleteById(comment.getId());
-        em.detach(comment);
+        em.flush();
         assertThat(commentRepository.findById(EXISTING_COMMENT_ID)).isNotPresent();
     }
 
