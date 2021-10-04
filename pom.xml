@@ -50,5 +50,6 @@
         <module>hw3-boot</module>
         <module>hw4-shell</module>
         <module>hw5-jdbc</module>
+        <module>hw6-jpa</module>
     </modules>
 </project>
