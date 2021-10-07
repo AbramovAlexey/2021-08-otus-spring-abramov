@@ -35,13 +35,11 @@ public class AuthorServiceImpl implements AuthorService{
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<Author> readAll() {
         return authorRepository.findAll();
     }
 
     @Override
-    @Transactional
     public void delete(long id) {
         authorRepository.deleteById(id);
     }
