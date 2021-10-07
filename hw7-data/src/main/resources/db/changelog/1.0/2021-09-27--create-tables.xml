@@ -1,0 +1,70 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <changeSet id="01" author="aabramov">
+
+        <createTable tableName="Authors">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="full_name" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="Genres">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="Books">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="Books_authors">
+            <column name="book_id" type="bigint"/>
+            <column name="author_id" type="bigint"/>
+        </createTable>
+
+        <createTable tableName="Books_genres">
+            <column name="book_id" type="bigint"/>
+            <column name="genre_id" type="bigint"/>
+        </createTable>
+
+        <createTable tableName="book_comments">
+            <column name="id" type="bigint" autoIncrement="true"/>
+            <column name="book_id" type="bigint"/>
+            <column name="content" type="varchar(500)"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="book_comments" baseColumnNames="book_id"
+                                 constraintName="book_comments_fk" onDelete="CASCADE"
+                                 referencedTableName="Books" referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="Books_authors" baseColumnNames="book_id"
+                                 constraintName="ba_book_fk"
+                                 referencedTableName="Books" referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="Books_authors" baseColumnNames="author_id"
+                                 constraintName="ba_author_fk"
+                                 referencedTableName="Authors" referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="Books_genres" baseColumnNames="book_id"
+                                 constraintName="bg_book_fk"
+                                 referencedTableName="Books" referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="Books_genres" baseColumnNames="genre_id"
+                                 constraintName="ba_genre_fk"
+                                 referencedTableName="Genres" referencedColumnNames="id"/>
+
+    </changeSet>
+
+</databaseChangeLog>
