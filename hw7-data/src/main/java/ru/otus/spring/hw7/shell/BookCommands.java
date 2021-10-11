@@ -10,6 +10,7 @@ import ru.otus.spring.hw7.service.BookService;
 import ru.otus.spring.hw7.utils.Utils;
 
 import java.util.List;
+import java.util.Objects;
 
 @ShellComponent
 @RequiredArgsConstructor
@@ -24,7 +25,6 @@ public class BookCommands {
     }
 
     @ShellMethod(value = "Read all books", key = "readAllBooks")
-    @Transactional(readOnly = true)
     public String readAllBooks() {
         List<Book> books = bookService.readAll();
         return Utils.stringFromList(books);
@@ -37,10 +37,9 @@ public class BookCommands {
     }
 
     @ShellMethod(value = "Get book by id", key = "readBook")
-    @Transactional(readOnly = true)
     public String readBook(@ShellOption long id) {
         Book book = bookService.readById(id);
-        return book.toString();
+        return Objects.isNull(book) ? "Book not found" : book.toString();
     }
 
     @ShellMethod(value = "Update book by id with fields", key = "updateBook")

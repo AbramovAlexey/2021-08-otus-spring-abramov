@@ -44,6 +44,8 @@ public class Book {
             inverseJoinColumns = @JoinColumn(name = "genre_id", referencedColumnName = "id"))
     private List<Genre> genres;
 
+    @Fetch(FetchMode.SELECT)
+    @BatchSize(size = 5)
     @OneToMany(targetEntity = Comment.class, fetch = FetchType.LAZY, mappedBy = "book")
     private List<Comment> comments;
 

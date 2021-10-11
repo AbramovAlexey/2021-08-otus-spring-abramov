@@ -10,6 +10,7 @@ import ru.otus.spring.hw7.repository.BookRepository;
 import ru.otus.spring.hw7.repository.CommentRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 import static ru.otus.spring.hw7.utils.Utils.checkAnyNull;
 
@@ -38,13 +39,24 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Book readById(long id) {
-        return bookRepository.findById(id).orElse(null);
+        Optional<Book> optBook = bookRepository.findById(id);
+        if (optBook.isPresent()) {
+            Book book = optBook.get();
+            initLazyFields(book);
+            return book;
+        } else {
+            return null;
+        }
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Book> readAll() {
-        return bookRepository.findAll();
+        List<Book> books = bookRepository.findAll();
+        books.forEach(this::initLazyFields);
+        return books;
     }
 
     @Override
@@ -122,6 +134,12 @@ public class BookServiceImpl implements BookService{
         }
         book.getAuthors().remove(author);
         return true;
+    }
+
+    private void initLazyFields(Book book) {
+        book.getAuthors().size();
+        book.getComments().size();
+        book.getGenres().size();
     }
 
 }
