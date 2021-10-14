@@ -1,0 +1,34 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <changeSet id="01" author="aabramov">
+
+        <insert tableName="Authors">
+            <column name="full_name" value="Tolstoy"/>
+        </insert>
+        <insert tableName="Authors">
+            <column name="full_name" value="Lermontov"/>
+        </insert>
+        <insert tableName="Genres">
+            <column name="name" value="Fantasy"/>
+        </insert>
+        <insert tableName="Books">
+            <column name = "name" value="War and Peace"/>
+        </insert>
+        <insert tableName="Books_authors">
+            <column name = "book_id" value="1"/>
+            <column name = "author_id" value="1"/>
+        </insert>
+        <insert tableName="Books_genres">
+            <column name = "book_id" value="1"/>
+            <column name = "genre_id" value="1"/>
+        </insert>
+        <insert tableName="Book_comments">
+            <column name = "content" value="Bad book"/>
+            <column name = "book_id" value="1"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>
