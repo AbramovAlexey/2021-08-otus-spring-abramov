@@ -52,5 +52,6 @@
         <module>hw5-jdbc</module>
         <module>hw6-jpa</module>
         <module>hw7-data</module>
+        <module>hw8-mongo</module>
     </modules>
 </project>
