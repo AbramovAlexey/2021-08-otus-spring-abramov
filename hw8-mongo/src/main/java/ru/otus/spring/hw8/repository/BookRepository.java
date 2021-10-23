@@ -2,12 +2,12 @@ package ru.otus.spring.hw8.repository;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Component;
-import ru.otus.spring.hw8.model.Author;
+import ru.otus.spring.hw8.model.Book;
 
 @Component
-public interface AuthorRepository extends MongoRepository<Author, String> {
+public interface BookRepository extends MongoRepository<Book, String> {
 
-    Author findByName(String name);
+    Book findByName(String name);
     void deleteByName(String name);
 
 }
