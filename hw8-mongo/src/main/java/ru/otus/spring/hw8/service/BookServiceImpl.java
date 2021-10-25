@@ -4,8 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.otus.spring.hw8.model.Author;
 import ru.otus.spring.hw8.model.Book;
+import ru.otus.spring.hw8.model.Comment;
 import ru.otus.spring.hw8.model.Genre;
 import ru.otus.spring.hw8.repository.BookRepository;
+import ru.otus.spring.hw8.repository.CommentRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,6 +19,7 @@ public class BookServiceImpl implements BookService{
     private final BookRepository bookRepository;
     private final GenreService genreService;
     private final AuthorService authorService;
+    private final CommentRepository commentRepository;
 
     @Override
     public String create(String name, String authorName, String genreName) {
@@ -90,6 +93,34 @@ public class BookServiceImpl implements BookService{
             authors.add(authorService.readByName(nameAuthor));
             bookRepository.save(book);
         }
+    }
+
+    @Override
+    public String addComment(String nameBook, String text) {
+        Book book = readByName(nameBook);
+        return commentRepository.save(new Comment(book.getId(), text))
+                                .getId();
+    }
+
+    @Override
+    public void deleteComment(String idComment) {
+        commentRepository.deleteById(idComment);
+    }
+
+    @Override
+    public List<Comment> showAllComments(String nameBook) {
+        Book book = readByName(nameBook);
+        return commentRepository.findAllByBookId(book.getId());
+    }
+
+    @Override
+    public List<Book> findByAuthor(String name) {
+        return bookRepository.findAllByAuthorsName(name);
+    }
+
+    @Override
+    public List<Book> findByGenre(String name) {
+        return bookRepository.findAllByGenresName(name);
     }
 
     private Optional<Genre> findGenreByName(List<Genre> genres, String name) {

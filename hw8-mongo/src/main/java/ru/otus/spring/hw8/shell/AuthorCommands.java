@@ -45,5 +45,9 @@ public class AuthorCommands {
         return "Author has been successfully updated";
     }
 
+    @ShellMethod(value = "Check authors consistency", key = {"checkAuthorConsistency", "chkAuths"})
+    public String checkAuthorConsistency(){
+        return authorService.checkAuthorsConsistency() ? "OK" : "ERROR - differences found";
+    }
 
 }

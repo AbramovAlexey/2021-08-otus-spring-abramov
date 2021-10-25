@@ -65,4 +65,31 @@ public class BookCommands {
         return "Author has been successfully added";
     }
 
+    @ShellMethod(value = "Show all comments for book", key = "showBookComments")
+    public String showBookComments(@ShellOption String name) {
+        return Utils.stringFromList(bookService.showAllComments(name));
+    }
+
+    @ShellMethod(value = "Add comment for book", key = "addBookComment")
+    public String addBookComment(@ShellOption String bookName, @ShellOption String content){
+        String id = bookService.addComment(bookName, content);
+        return String.format("Comment has been successfully created with id = %s", id);
+    }
+
+    @ShellMethod(value = "Delete comment for book", key = "deleteBookComment")
+    public String deleteBookComment(@ShellOption String id) {
+        bookService.deleteComment(id);
+        return "Comment has been successfully deleted";
+    }
+
+    @ShellMethod(value = "Find by author", key = "findBooksByAuthor")
+    public String findBooksByAuthor(@ShellOption String name) {
+        return Utils.stringFromList(bookService.findByAuthor(name));
+    }
+
+    @ShellMethod(value = "Find by genre", key = "findBooksByGenre")
+    public String findBooksByGenre(@ShellOption String name) {
+        return Utils.stringFromList(bookService.findByGenre(name));
+    }
+
 }

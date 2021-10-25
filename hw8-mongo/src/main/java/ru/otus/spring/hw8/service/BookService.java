@@ -1,6 +1,7 @@
 package ru.otus.spring.hw8.service;
 
 import ru.otus.spring.hw8.model.Book;
+import ru.otus.spring.hw8.model.Comment;
 
 import java.util.List;
 
@@ -15,5 +16,9 @@ public interface BookService {
     void updateAddGenre(String nameBook, String nameGenre);
     void updateDeleteAuthor(String nameBook, String nameAuthor);
     void updateAddAuthor(String nameBook, String nameAuthor);
-
+    String addComment(String nameBook, String text);
+    void deleteComment(String idComment);
+    List<Comment> showAllComments(String nameBook);
+    List<Book> findByAuthor(String name);
+    List<Book> findByGenre(String name);
 }
