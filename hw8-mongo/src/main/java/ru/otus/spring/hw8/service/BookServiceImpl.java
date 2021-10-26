@@ -80,7 +80,6 @@ public class BookServiceImpl implements BookService{
         var matchAuthor = findAuthorByName(authors, nameAuthor);
         authors.remove(matchAuthor.orElseThrow(() -> new RuntimeException("No such author for this book")));
         bookRepository.save(book);
-
     }
 
     @Override

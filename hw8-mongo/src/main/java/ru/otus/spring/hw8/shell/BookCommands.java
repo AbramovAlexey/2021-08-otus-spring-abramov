@@ -71,8 +71,8 @@ public class BookCommands {
     }
 
     @ShellMethod(value = "Add comment for book", key = "addBookComment")
-    public String addBookComment(@ShellOption String bookName, @ShellOption String content){
-        String id = bookService.addComment(bookName, content);
+    public String addBookComment(@ShellOption String nameBook, @ShellOption String content){
+        String id = bookService.addComment(nameBook, content);
         return String.format("Comment has been successfully created with id = %s", id);
     }
 
