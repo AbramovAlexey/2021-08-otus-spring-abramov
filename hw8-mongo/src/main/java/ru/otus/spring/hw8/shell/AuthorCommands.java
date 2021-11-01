@@ -8,8 +8,6 @@ import ru.otus.spring.hw8.model.Author;
 import ru.otus.spring.hw8.service.AuthorService;
 import ru.otus.spring.hw8.utils.Utils;
 
-import java.util.List;
-
 @ShellComponent
 @RequiredArgsConstructor
 public class AuthorCommands {
@@ -43,11 +41,6 @@ public class AuthorCommands {
     public String updateAuthor(@ShellOption String oldName, @ShellOption String newName) {
         authorService.update(oldName, newName);
         return "Author has been successfully updated";
-    }
-
-    @ShellMethod(value = "Check authors consistency", key = {"checkAuthorConsistency", "chkAuths"})
-    public String checkAuthorConsistency(){
-        return authorService.checkAuthorsConsistency() ? "OK" : "ERROR - differences found";
     }
 
 }

@@ -11,6 +11,5 @@ public interface AuthorService {
     Author readByName(String name);
     List<Author> readAll();
     void deleteByName(String name);
-    boolean checkAuthorsConsistency();
 
 }

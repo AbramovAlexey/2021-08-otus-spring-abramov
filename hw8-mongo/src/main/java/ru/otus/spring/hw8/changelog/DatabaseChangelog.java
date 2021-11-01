@@ -15,10 +15,10 @@ import java.util.List;
 @ChangeLog
 public class DatabaseChangelog {
 
-    private Author author1 = new Author("Tolkien");
-    private Author author2 = new Author("Tolstoy");
-    private Genre genre = new Genre("Fantasy");
-    private Book book = new Book("LOTR", List.of(author1, author2), List.of(genre));
+    private final Author author1 = new Author("Tolkien");
+    private final Author author2 = new Author("Tolstoy");
+    private final Genre genre = new Genre("Fantasy");
+    private final Book book = new Book("LOTR", List.of(author1, author2), List.of(genre));
 
     @ChangeSet(order = "001", id = "dropDb", author = "aabramov", runAlways = true)
     public void dropDb(MongoDatabase db) {

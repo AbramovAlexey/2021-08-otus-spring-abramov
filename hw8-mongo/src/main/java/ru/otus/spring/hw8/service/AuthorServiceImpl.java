@@ -42,11 +42,4 @@ public class AuthorServiceImpl implements AuthorService{
         authorRepository.deleteByName(name);
     }
 
-    @Override
-    public boolean checkAuthorsConsistency() {
-        List<Author> authorsFromBooks = authorRepository.findAuthorsFromBooks();
-        List<Author> originalAuthors = authorRepository.findAll();
-        return authorsFromBooks.stream().allMatch(author -> originalAuthors.contains(author));
-    }
-
 }
