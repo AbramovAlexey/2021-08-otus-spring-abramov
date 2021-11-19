@@ -6,8 +6,8 @@ spring:
       database: library
 
 mongock:
-  runner-type: "InitializingBean"
-  change-logs-scan-package: ru.otus.spring.hw8.changelog
+  runner-type: "applicationrunner"
+  change-logs-scan-package: ru.otus.spring.hw10.changelog
 
 server:
   port: 8090
