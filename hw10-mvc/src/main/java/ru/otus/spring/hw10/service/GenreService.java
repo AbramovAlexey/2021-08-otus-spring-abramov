@@ -11,5 +11,5 @@ public interface GenreService {
     Genre readByName(String name);
     List<Genre> readAll();
     void deleteByName(String name);
-
+    public Genre readOrCreate(String name);
 }

@@ -7,6 +7,7 @@ import ru.otus.spring.hw10.model.Book;
 import ru.otus.spring.hw10.service.BookService;
 import ru.otus.spring.hw10.service.DtoConverter;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -32,9 +33,15 @@ public class BookController {
     }
 
     @PostMapping("api/books")
-    public Book addBook(@RequestBody Book book) {
+    public Book addBook(@Valid @RequestBody BookDto bookDto) {
+        return bookService.save(dtoConverter.DtoToBook(bookDto));
+    }
 
-        return null;
+    @PutMapping("api/books/{id}")
+    public Book addBook(@Valid @RequestBody BookDto bookDto, @PathVariable String id) {
+        Book bookToUpdate = dtoConverter.DtoToBook(bookDto);
+        bookToUpdate.setId(id);
+        return bookService.save(bookToUpdate);
     }
 
 }

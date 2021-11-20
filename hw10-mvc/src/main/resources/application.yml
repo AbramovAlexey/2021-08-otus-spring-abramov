@@ -6,7 +6,7 @@ spring:
       database: library
 
 mongock:
-  runner-type: "applicationrunner"
+  runner-type: "ApplicationRunner"
   change-logs-scan-package: ru.otus.spring.hw10.changelog
 
 server:

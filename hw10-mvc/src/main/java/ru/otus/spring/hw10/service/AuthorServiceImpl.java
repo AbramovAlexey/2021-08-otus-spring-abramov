@@ -42,4 +42,10 @@ public class AuthorServiceImpl implements AuthorService{
         authorRepository.deleteByName(name);
     }
 
+    @Override
+    public Author readOrCreate(String name) {
+        return Optional.ofNullable(authorRepository.findByName(name))
+                .orElseGet(() -> authorRepository.save(new Author(name)));
+    }
+
 }

@@ -24,4 +24,6 @@ public interface BookService {
     Book readById(String id);
 
     void deleteById(String id);
+    Book save(Book book);
+
 }

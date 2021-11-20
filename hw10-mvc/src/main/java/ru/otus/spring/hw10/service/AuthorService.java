@@ -12,4 +12,5 @@ public interface AuthorService {
     List<Author> readAll();
     void deleteByName(String name);
 
+    Author readOrCreate(String name);
 }

@@ -12,6 +12,7 @@ import java.util.List;
 public interface DtoConverter {
 
     BookDto bookToDto(Book book);
+    Book DtoToBook(BookDto bookDto);
     List<BookDto> booksToDto(List<Book> books);
     AuthorDto authorToDto(Author author);
     List<AuthorDto> authorsToDto(List<Author> authors);

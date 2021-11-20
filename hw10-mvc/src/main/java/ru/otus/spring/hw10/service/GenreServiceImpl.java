@@ -42,4 +42,10 @@ public class GenreServiceImpl implements GenreService{
         genreRepository.deleteByName(name);
     }
 
+    @Override
+    public Genre readOrCreate(String name) {
+        return Optional.ofNullable(genreRepository.findByName(name))
+                .orElseGet(() -> genreRepository.save(new Genre(name)));
+    }
+
 }

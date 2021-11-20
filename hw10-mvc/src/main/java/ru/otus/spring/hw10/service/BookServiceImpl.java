@@ -20,6 +20,7 @@ public class BookServiceImpl implements BookService{
     private final GenreService genreService;
     private final AuthorService authorService;
     private final CommentRepository commentRepository;
+    private final DtoConverter dtoConverter;
 
     @Override
     public Book create(String name, String authorName, String genreName) {
@@ -128,6 +129,11 @@ public class BookServiceImpl implements BookService{
     @Override
     public void deleteById(String id) {
         bookRepository.deleteById(id);
+    }
+
+    @Override
+    public Book save(Book book) {
+        return bookRepository.save(book);
     }
 
     private Optional<Genre> findGenreByName(List<Genre> genres, String name) {
