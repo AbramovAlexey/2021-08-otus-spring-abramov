@@ -1,7 +1,6 @@
 package ru.otus.spring.hw10.rest;
 
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.otus.spring.hw10.dto.AuthorDto;
@@ -17,7 +16,6 @@ public class AuthorController {
     private final DtoConverter dtoConverter;
     private final AuthorService authorService;
 
-    @SneakyThrows
     @GetMapping("api/authors")
     public List<AuthorDto> getAllAuthors() {
         return dtoConverter.authorsToDto(authorService.readAll());

@@ -33,15 +33,16 @@ public class BookController {
     }
 
     @PostMapping("api/books")
-    public Book addBook(@Valid @RequestBody BookDto bookDto) {
-        return bookService.save(dtoConverter.DtoToBook(bookDto));
+    public BookDto addBook(@Valid @RequestBody BookDto bookDto) {
+        Book book = bookService.save(dtoConverter.DtoToBook(bookDto));
+        return dtoConverter.bookToDto(book);
     }
 
     @PutMapping("api/books/{id}")
-    public Book addBook(@Valid @RequestBody BookDto bookDto, @PathVariable String id) {
+    public BookDto eidtBook(@Valid @RequestBody BookDto bookDto, @PathVariable String id) {
         Book bookToUpdate = dtoConverter.DtoToBook(bookDto);
         bookToUpdate.setId(id);
-        return bookService.save(bookToUpdate);
+        return dtoConverter.bookToDto(bookService.save(bookToUpdate));
     }
 
 }
