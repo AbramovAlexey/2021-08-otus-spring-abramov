@@ -53,5 +53,6 @@
         <module>hw6-jpa</module>
         <module>hw7-data</module>
         <module>hw8-mongo</module>
+        <module>hw10-mvc</module>
     </modules>
 </project>
