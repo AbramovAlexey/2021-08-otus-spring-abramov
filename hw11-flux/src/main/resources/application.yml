@@ -1,0 +1,13 @@
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: library
+
+mongock:
+  runner-type: "ApplicationRunner"
+  change-logs-scan-package: ru.otus.spring.hw11.changelog
+
+server:
+  port: 8090
