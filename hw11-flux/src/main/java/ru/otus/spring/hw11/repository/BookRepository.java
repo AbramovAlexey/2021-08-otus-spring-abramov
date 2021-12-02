@@ -1,16 +1,9 @@
 package ru.otus.spring.hw11.repository;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import org.springframework.stereotype.Component;
 import ru.otus.spring.hw11.model.Book;
 
-import java.util.List;
-
 @Component
-public interface BookRepository extends MongoRepository<Book, String> {
-
-    Book findByName(String name);
-    void deleteByName(String name);
-    List<Book> findAllByAuthorsName(String name);
-    List<Book> findAllByGenresName(String name);
+public interface BookRepository extends ReactiveMongoRepository<Book, String> {
 }
