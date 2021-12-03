@@ -53,7 +53,7 @@ public class BookHandler {
         return request.bodyToMono(BookDto.class)
                 .flatMap(this::toBook)
                 .flatMap(bookRepository::save)
-                .flatMap(book -> ok().build());
+                .flatMap(book -> ok().contentType(APPLICATION_JSON).build());
     }
 
     public Mono<ServerResponse> editOne(ServerRequest request) {
@@ -64,7 +64,7 @@ public class BookHandler {
                                                   return toBook(bookDto);
                       }))
                       .flatMap(bookRepository::save)
-                      .flatMap(book -> ok().build())
+                      .flatMap(book -> ok().contentType(APPLICATION_JSON).build())
                       .switchIfEmpty(notFound().build());
     }
 

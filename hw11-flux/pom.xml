@@ -11,10 +11,6 @@
     <artifactId>hw11-flux</artifactId>
     <version>1.0</version>
 
-    <properties>
-        <mongock.version>4.1.17</mongock.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
