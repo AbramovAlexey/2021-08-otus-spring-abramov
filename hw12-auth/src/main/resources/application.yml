@@ -7,7 +7,11 @@ spring:
 
 mongock:
   runner-type: "ApplicationRunner"
-  change-logs-scan-package: ru.otus.spring.hw10.changelog
+  change-logs-scan-package: ru.otus.spring.hw12.changelog
 
 server:
   port: 8090
+
+jwt:
+    secret: AXFzDktew1Lw9Vn8tj4R
+    expTime: 1800000
