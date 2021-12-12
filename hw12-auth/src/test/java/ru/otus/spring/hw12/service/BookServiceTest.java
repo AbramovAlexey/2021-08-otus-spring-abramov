@@ -19,11 +19,13 @@ import static org.mockito.Mockito.when;
 
 @DataMongoTest
 @DisplayName("Service BookService must")
-@Import({BookServiceImpl.class, GenreServiceImpl.class, AuthorServiceImpl.class})
+@Import({BookServiceImpl.class, GenreServiceImpl.class, AuthorServiceImpl.class, DtoConverterImpl.class})
 public class BookServiceTest {
 
     @Autowired
     private BookService bookService;
+
+
 
     @MockBean
     private BookRepository bookRepository;
