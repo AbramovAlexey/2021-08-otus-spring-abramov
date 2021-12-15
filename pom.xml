@@ -55,5 +55,6 @@
         <module>hw8-mongo</module>
         <module>hw10-mvc</module>
         <module>hw11-flux</module>
+        <module>hw12-auth</module>
     </modules>
 </project>
