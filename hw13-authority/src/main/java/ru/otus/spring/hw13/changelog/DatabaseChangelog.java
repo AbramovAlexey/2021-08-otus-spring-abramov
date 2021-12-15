@@ -3,14 +3,8 @@ package ru.otus.spring.hw13.changelog;
 import com.github.cloudyrock.mongock.ChangeLog;
 import com.github.cloudyrock.mongock.ChangeSet;
 import com.mongodb.client.MongoDatabase;
-import ru.otus.spring.hw13.model.AppUser;
-import ru.otus.spring.hw13.model.Author;
-import ru.otus.spring.hw13.model.Book;
-import ru.otus.spring.hw13.model.Genre;
-import ru.otus.spring.hw13.repository.AuthorRepository;
-import ru.otus.spring.hw13.repository.BookRepository;
-import ru.otus.spring.hw13.repository.GenreRepository;
-import ru.otus.spring.hw13.repository.AppUserRepository;
+import ru.otus.spring.hw13.model.*;
+import ru.otus.spring.hw13.repository.*;
 
 import java.util.List;
 
@@ -21,7 +15,10 @@ public class DatabaseChangelog {
     private final Author author2 = new Author("Tolstoy");
     private final Genre genre = new Genre("Fantasy");
     private final Book book = new Book("LOTR", List.of(author1, author2), List.of(genre));
-    private final AppUser appUser = new AppUser("admin", "$2a$10$lQf9bIvxe.HP4B01X7TcpOqklTqxWzDx.0ruKJ5CMmlhRtjCQ/gNS");
+    private final List<Role> roles = List.of(new Role("ROLE_USER"), new Role("ROLE_MANAGER"));
+    private final List<AppUser> users = List.of(new AppUser("user", "$2a$10$WTAIgpwhOTDqxUu5yOz5NebhXTB.ub7P2SdBbjm1qsRWYzCu2sE7u", List.of(roles.get(0))),
+                                                new AppUser("manager", "$2a$10$7ye2HJh06SybOPmpKuOKw.O83K/1z4IvERnW2JLGd4bdklrzrzR9a", List.of(roles.get(1))),
+                                                new AppUser("admin", "$2a$10$lQf9bIvxe.HP4B01X7TcpOqklTqxWzDx.0ruKJ5CMmlhRtjCQ/gNS"));
 
     @ChangeSet(order = "001", id = "dropDb", author = "aabramov", runAlways = true)
     public void dropDb(MongoDatabase db) {
@@ -47,10 +44,16 @@ public class DatabaseChangelog {
         repository.save(book);
     }
 
-    @ChangeSet(order = "005", id = "initUser", author = "aabramov", runAlways = true)
+    @ChangeSet(order = "005", id = "initRoles", author = "aabramov", runAlways = true)
+    public void initRoles(RoleRepository repository)
+    {
+        roles.forEach(repository::save);
+    }
+
+    @ChangeSet(order = "006", id = "initUser", author = "aabramov", runAlways = true)
     public void initBooks(AppUserRepository repository)
     {
-        repository.save(appUser);
+        users.forEach(repository::save);
     }
 
 }

@@ -1,15 +1,17 @@
 package ru.otus.spring.hw13.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import ru.otus.spring.hw13.model.AppUser;
+import ru.otus.spring.hw13.model.Role;
 import ru.otus.spring.hw13.repository.AppUserRepository;
 
-import java.util.Collections;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -25,7 +27,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     private UserDetails toUserDetails(AppUser appUser) {
-        return new User(appUser.getName(), appUser.getPassword(), Collections.emptyList());
+        return new User(appUser.getName(),
+                        appUser.getPassword(),
+                        appUser.getRoles().stream()
+                                          .map(Role::getName)
+                                          .map(SimpleGrantedAuthority::new)
+                                          .collect(Collectors.toList()));
     }
 
 }

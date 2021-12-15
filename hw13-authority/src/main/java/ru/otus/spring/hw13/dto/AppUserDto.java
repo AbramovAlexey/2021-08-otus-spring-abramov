@@ -17,4 +17,5 @@ public class AppUserDto {
 	@NotBlank
 	private String password;
 
+
 }
