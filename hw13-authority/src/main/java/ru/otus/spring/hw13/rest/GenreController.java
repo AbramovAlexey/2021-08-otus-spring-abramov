@@ -18,7 +18,7 @@ public class GenreController {
     private final DtoConverter dtoConverter;
 
     @GetMapping("api/genres")
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('MANAGER')")
     public List<GenreDto> getAllAuthors() {
         return dtoConverter.genresToDto(genreService.readAll());
     }

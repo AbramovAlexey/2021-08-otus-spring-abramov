@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +20,7 @@ import ru.otus.spring.hw13.security.jwt.JwtUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Date;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -34,7 +36,10 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtils.generateJwtToken(authentication);
         User userDetails = (User) authentication.getPrincipal();
-        return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getUsername()));
+        return ResponseEntity.ok(new JwtResponse(jwt,
+                                                 userDetails.getUsername(),
+                                                 userDetails.getAuthorities().stream()
+                                                    .map(GrantedAuthority::getAuthority).collect(Collectors.toList())));
     }
 
     @PostMapping("/api/auth/logout")

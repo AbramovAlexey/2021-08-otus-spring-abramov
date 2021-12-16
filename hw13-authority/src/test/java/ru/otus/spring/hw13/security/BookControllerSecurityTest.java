@@ -6,6 +6,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.test.context.ContextConfiguration;
@@ -20,7 +21,10 @@ import ru.otus.spring.hw13.service.BookService;
 import ru.otus.spring.hw13.service.DtoConverter;
 
 import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -45,6 +49,9 @@ public class BookControllerSecurityTest {
     @MockBean
     private JwtUtils jwtUtils;
 
+    private final String token = "someToken";
+    private final String user = "user";
+
     @Test
     void shouldRequireAuthWhenGetList() throws Exception {
         when(bookService.readAll()).thenReturn(Collections.emptyList());
@@ -53,15 +60,25 @@ public class BookControllerSecurityTest {
     }
 
     @Test
-    void shouldAllOkWhenGetListWithToken() throws Exception {
-        String token = "someToken";
-        String user = "admin";
+    void shouldAllOkWhenGetListWithTokenAndRole() throws Exception {
         when(bookService.readAll()).thenReturn(Collections.emptyList());
+        when(jwtUtils.parseJwt(any())).thenReturn(Optional.of(token));
+        when(jwtUtils.validateJwtToken(token)).thenReturn(true);
+        when(jwtUtils.getUserNameFromJwtToken(token)).thenReturn(user);
+        when(userDetailsService.loadUserByUsername(user)).thenReturn(new User(user, user, List.of(new SimpleGrantedAuthority("ROLE_USER"))));
+        mvc.perform(get("/api/books").header("Authorization", "Bearer " + token))
+           .andExpect(status().isOk());
+    }
+
+    @Test
+    void shouldFailWhenGetListWithTokenWithoutRole() throws Exception {
+        when(bookService.readAll()).thenReturn(Collections.emptyList());
+        when(jwtUtils.parseJwt(any())).thenReturn(Optional.of(token));
         when(jwtUtils.validateJwtToken(token)).thenReturn(true);
         when(jwtUtils.getUserNameFromJwtToken(token)).thenReturn(user);
         when(userDetailsService.loadUserByUsername(user)).thenReturn(new User(user, user, Collections.emptyList()));
         mvc.perform(get("/api/books").header("Authorization", "Bearer " + token))
-           .andExpect(status().isOk());
+                .andExpect(status().is(HttpStatus.FORBIDDEN.value()));
     }
 
 }
