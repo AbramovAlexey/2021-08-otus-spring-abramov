@@ -2,7 +2,10 @@ package ru.otus.spring.hw13.changelog;
 
 import com.github.cloudyrock.mongock.ChangeLog;
 import com.github.cloudyrock.mongock.ChangeSet;
+import com.github.cloudyrock.mongock.driver.mongodb.springdata.v3.decorator.impl.MongockTemplate;
 import com.mongodb.client.MongoDatabase;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.index.Index;
 import ru.otus.spring.hw13.model.*;
 import ru.otus.spring.hw13.repository.*;
 
@@ -55,5 +58,14 @@ public class DatabaseChangelog {
     {
         users.forEach(repository::save);
     }
+
+    @ChangeSet(order = "007", id = "createExpireIndex", author = "aabramov", runAlways = true)
+    public void createIndex(MongockTemplate mongoTemplate)
+    {
+        mongoTemplate.indexOps("tokenBlacklist")
+                     .ensureIndex(new Index().on("expireTo", Sort.Direction.ASC)
+                     .expire(10));
+    }
+
 
 }
