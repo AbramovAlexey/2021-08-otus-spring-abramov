@@ -56,5 +56,6 @@
         <module>hw10-mvc</module>
         <module>hw11-flux</module>
         <module>hw12-auth</module>
+        <module>hw13-authority</module>
     </modules>
 </project>
