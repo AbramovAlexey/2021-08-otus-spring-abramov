@@ -1,0 +1,14 @@
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 0
+      database: library
+  batch:
+    job:
+      enabled: false
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+
