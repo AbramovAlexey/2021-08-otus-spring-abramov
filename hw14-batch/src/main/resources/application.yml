@@ -6,7 +6,7 @@ spring:
       database: library
   batch:
     job:
-      enabled: false
+      enabled: true
   jpa:
     generate-ddl: false
     hibernate:
@@ -16,3 +16,12 @@ spring:
   h2:
     console:
       enabled: true
+  liquibase:
+    change-log: classpath:db/changelog/liquibase-changelog.xml
+logging:
+  level:
+    ru:
+      otus:
+        spring:
+          hw14:
+            job: DEBUG
