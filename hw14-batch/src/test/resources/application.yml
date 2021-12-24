@@ -2,5 +2,17 @@ spring:
   data:
     mongodb:
       port: 0
-      database: library
+      database: library-test
+  shell:
+    interactive:
+      enabled: false
+  liquibase:
+    change-log: classpath:db/changelog/liquibase-changelog.xml
+  batch:
+    job:
+      enabled: false
+logging:
+  level:
+    ru.otus.spring.hw14.job: DEBUG
+    org.springframework.data.mongodb.core.MongoTemplate: DEBUG
 
