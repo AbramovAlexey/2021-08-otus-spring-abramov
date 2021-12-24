@@ -49,7 +49,7 @@ public class JobConfig {
     private final IdRelationRepository idRelationRepository;
 
     @Bean
-    public Job importBookJob(Step copyAuthorStep, Step copyGenreStep, JobExecutionListener jobExecutionListener,
+    public Job copyLibraryJob(Step copyAuthorStep, Step copyGenreStep, JobExecutionListener jobExecutionListener,
                              Step copyBookStep) {
         return jobBuilderFactory.get(JOB_NAME)
                 .incrementer(new RunIdIncrementer())
