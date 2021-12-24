@@ -12,8 +12,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "authors")
 public class AuthorMongo {
 
-    public AuthorMongo(String name) {
-        this(null, name);
+    public AuthorMongo(String id) {
+        this.id = id;
     }
 
     @Id

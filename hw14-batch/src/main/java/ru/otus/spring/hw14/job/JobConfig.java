@@ -5,48 +5,57 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.*;
+import org.springframework.batch.core.configuration.JobRegistry;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.configuration.support.JobRegistryBeanPostProcessor;
+import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.item.ItemProcessor;
-import org.springframework.batch.item.data.RepositoryItemReader;
-import org.springframework.batch.item.data.RepositoryItemWriter;
-import org.springframework.batch.item.data.builder.RepositoryItemReaderBuilder;
 import org.springframework.batch.item.data.builder.RepositoryItemWriterBuilder;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import ru.otus.spring.hw14.job.processors.BookItemProcessor;
+import ru.otus.spring.hw14.job.readers.ItemReaderCreator;
+import ru.otus.spring.hw14.job.writers.AuthorItemWriter;
+import ru.otus.spring.hw14.job.writers.GenreItemWriter;
 import ru.otus.spring.hw14.model.*;
 import ru.otus.spring.hw14.repository.*;
 
-import java.util.Map;
-
 @Configuration
+@EnableCaching
 @EnableBatchProcessing
 @RequiredArgsConstructor
 public class JobConfig {
 
     private static final int CHUNK_SIZE = 2;
-    private final Map<String, Sort.Direction> sort = Map.of("id", Sort.Direction.ASC);
+    public static final String JOB_NAME = "copyLibrary";
 
     private final Logger logger = LoggerFactory.getLogger(JobConfig.class);
 
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
     private final AuthorRepository authorRepository;
-    private final AuthorRepositoryMongo authorRepositoryMongo;
     private final GenreRepository genreRepository;
-    private final GenreRepositoryMongo genreRepositoryMongo;
     private final BookRepository bookRepository;
     private final BookRepositoryMongo bookRepositoryMongo;
+    private final ItemReaderCreator itemReaderCreator;
+    private final AuthorItemWriter authorItemWriter;
+    private final GenreItemWriter genreItemWriter;
+    private final BookItemProcessor bookItemProcessor;
+    private final MongoTemplate mongoTemplate;
+    private final IdRelationRepository idRelationRepository;
 
     @Bean
-    public Job importBookJob(Step copyAuthorStep, Step copyGenreStep, JobExecutionListener jobExecutionListener) {
-        return jobBuilderFactory.get("copyLibrary")
+    public Job importBookJob(Step copyAuthorStep, Step copyGenreStep, JobExecutionListener jobExecutionListener,
+                             Step copyBookStep) {
+        return jobBuilderFactory.get(JOB_NAME)
+                .incrementer(new RunIdIncrementer())
                 .flow(copyAuthorStep)
                 .next(copyGenreStep)
+                .next(copyBookStep)
                 .end()
                 .listener(jobExecutionListener)
                 .build();
@@ -56,9 +65,9 @@ public class JobConfig {
     public Step copyAuthorStep(StepExecutionListener stepExecutionListener) {
         return stepBuilderFactory.get("copyAuthor")
                 .<Author, AuthorMongo>chunk(CHUNK_SIZE)
-                .reader(getReaderByRepository(authorRepository))
-                .processor((ItemProcessor<Author, AuthorMongo>)item -> new AuthorMongo(item.getFullName()))
-                .writer(getWriterByRepository(authorRepositoryMongo))
+                .reader(itemReaderCreator.getReaderByRepository(authorRepository))
+                .processor((ItemProcessor<Author, AuthorMongo>)item -> new AuthorMongo(String.valueOf(item.getId()), item.getFullName()))
+                .writer(authorItemWriter)
                 .listener(stepExecutionListener)
                 .build();
     }
@@ -67,20 +76,22 @@ public class JobConfig {
     public Step copyGenreStep(StepExecutionListener stepExecutionListener) {
         return stepBuilderFactory.get("copyGenre")
                 .<Genre, GenreMongo>chunk(CHUNK_SIZE)
-                .reader(getReaderByRepository(genreRepository))
-                .processor((ItemProcessor<Genre, GenreMongo>)item -> new GenreMongo(item.getName()))
-                .writer(getWriterByRepository(genreRepositoryMongo))
+                .reader(itemReaderCreator.getReaderByRepository(genreRepository))
+                .processor((ItemProcessor<Genre, GenreMongo>)item -> new GenreMongo(String.valueOf(item.getId()), item.getName()))
+                .writer(genreItemWriter)
                 .listener(stepExecutionListener)
                 .build();
     }
 
     @Bean
-    public Step copyBookStep(StepExecutionListener stepExecutionListener, ItemProcessor<Book, BookMongo> bookItemProcessor) {
+    public Step copyBookStep(StepExecutionListener stepExecutionListener) {
         return stepBuilderFactory.get("copyBook")
                 .<Book, BookMongo>chunk(CHUNK_SIZE)
-                .reader(getReaderByRepository(bookRepository))
+                .reader(itemReaderCreator.getReaderByRepository(bookRepository))
                 .processor(bookItemProcessor)
-                .writer(getWriterByRepository(bookRepositoryMongo))
+                .writer(new RepositoryItemWriterBuilder<BookMongo>().repository(bookRepositoryMongo)
+                                                                    .methodName("save")
+                                                                    .build())
                 .listener(stepExecutionListener)
                 .build();
     }
@@ -107,38 +118,23 @@ public class JobConfig {
         return new JobExecutionListener() {
             @Override
             public void beforeJob(@NonNull JobExecution jobExecution) {
-                logger.debug(jobExecution.getJobConfigurationName() + " job started");
+                logger.debug("job started");
+                idRelationRepository.deleteAll();
             }
 
             @Override
             public void afterJob(@NonNull JobExecution jobExecution) {
-                logger.debug(jobExecution.getJobConfigurationName() + " job finished");
+                //mongoTemplate.dropCollection(IdRelation.class);
+                logger.debug("job finished");
             }
         };
     }
 
     @Bean
-    ItemProcessor<Book, BookMongo> bookItemProcessor() {
-        return new ItemProcessor<Book, BookMongo>() {
-            @Override
-            public BookMongo process(Book item) throws Exception {
-                return null;
-            }
-        };
-    }
-
-    private <T> RepositoryItemReader<T> getReaderByRepository(JpaRepository<T, Long> repository) {
-        return new RepositoryItemReaderBuilder<T>().repository(repository)
-                                                   .methodName("findAll")
-                                                   .sorts(sort)
-                                                   .name(repository.getClass().getName())
-                                                   .build();
-    }
-
-    private <T> RepositoryItemWriter<T> getWriterByRepository(MongoRepository<T, String> repository) {
-        return new RepositoryItemWriterBuilder<T>().repository(repository)
-                                                .methodName("save")
-                                                .build();
+    public JobRegistryBeanPostProcessor postProcessor(JobRegistry jobRegistry) {
+        JobRegistryBeanPostProcessor jobRegistryBeanPostProcessor = new JobRegistryBeanPostProcessor();
+        jobRegistryBeanPostProcessor.setJobRegistry(jobRegistry);
+        return jobRegistryBeanPostProcessor;
     }
 
 }

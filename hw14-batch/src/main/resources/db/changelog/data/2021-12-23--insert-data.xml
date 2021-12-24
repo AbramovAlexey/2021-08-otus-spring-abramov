@@ -8,11 +8,23 @@
         <insert tableName="Authors">
             <column name="full_name" value="Tolkien"/>
         </insert>
+        <insert tableName="Authors">
+            <column name="full_name" value="Orwell"/>
+        </insert>
         <insert tableName="Genres">
             <column name="name" value="Fantasy"/>
         </insert>
+        <insert tableName="Genres">
+            <column name="name" value="Dystopia"/>
+        </insert>
         <insert tableName="Books">
             <column name="name" value="LOTR"/>
+        </insert>
+        <insert tableName="Books">
+            <column name="name" value="Hobbit"/>
+        </insert>
+        <insert tableName="Books">
+            <column name="name" value="1984"/>
         </insert>
         <insert tableName="Books_authors">
             <column name="book_id" value="1"/>
@@ -21,6 +33,26 @@
         <insert tableName="Books_genres">
             <column name="book_id" value="1"/>
             <column name="genre_id" value="1"/>
+        </insert>
+        <insert tableName="Books_authors">
+            <column name="book_id" value="2"/>
+            <column name="author_id" value="1"/>
+        </insert>
+        <insert tableName="Books_genres">
+            <column name="book_id" value="2"/>
+            <column name="genre_id" value="1"/>
+        </insert>
+        <insert tableName="Books_authors">
+            <column name="book_id" value="3"/>
+            <column name="author_id" value="2"/>
+        </insert>
+        <insert tableName="Books_genres">
+            <column name="book_id" value="3"/>
+            <column name="genre_id" value="1"/>
+        </insert>
+        <insert tableName="Books_genres">
+            <column name="book_id" value="3"/>
+            <column name="genre_id" value="2"/>
         </insert>
     </changeSet>
 

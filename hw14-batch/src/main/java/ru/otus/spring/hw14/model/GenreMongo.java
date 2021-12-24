@@ -12,8 +12,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "genres")
 public class GenreMongo {
 
-    public GenreMongo(String name) {
-        this(null, name);
+    public GenreMongo(String id) {
+        this.id = id;
     }
 
     @Id
