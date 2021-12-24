@@ -12,12 +12,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Setter
 public class IdRelation {
 
-    public IdRelation(long sqlId, String mongoId, String type) {
-        this.sqlId = sqlId;
-        this.mongoId = mongoId;
-        this.type = type;
-    }
-
     @Id
     String id;
     long sqlId;

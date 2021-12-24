@@ -9,9 +9,6 @@ import java.util.List;
 
 public interface BookRepository extends JpaRepository<Book, Long> {
 
-    List<Book> findByGenresName(String name);
-    List<Book> findByAuthorsFullName(String fullName);
-
     @EntityGraph(attributePaths = {
         "authors"
     })

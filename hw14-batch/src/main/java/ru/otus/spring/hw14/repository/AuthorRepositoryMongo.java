@@ -5,8 +5,4 @@ import ru.otus.spring.hw14.model.AuthorMongo;
 
 
 public interface AuthorRepositoryMongo extends MongoRepository<AuthorMongo, String> {
-
-    AuthorMongo findByName(String name);
-    void deleteByName(String name);
-
 }

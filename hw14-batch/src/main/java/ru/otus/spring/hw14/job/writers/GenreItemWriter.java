@@ -24,7 +24,7 @@ public class GenreItemWriter implements ItemWriter<GenreMongo> {
         items.forEach(it -> {
             IdRelation idRelation = new IdRelation();
             idRelation.setType(GenreMongo.class.getName());
-            idRelation.setSqlId(Long.parseLong(it.getId()));;
+            idRelation.setSqlId(Long.parseLong(it.getId()));
             it.setId(null);
             idRelation.setMongoId(genreRepositoryMongo.save(it).getId());
             idRelations.add(idRelation);

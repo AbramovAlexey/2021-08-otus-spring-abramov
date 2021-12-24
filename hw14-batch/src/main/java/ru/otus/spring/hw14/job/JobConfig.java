@@ -101,12 +101,12 @@ public class JobConfig {
     {
         return new StepExecutionListener() {
             @Override
-            public void beforeStep(StepExecution stepExecution) {
+            public void beforeStep(@NonNull StepExecution stepExecution) {
                 logger.debug(stepExecution.getStepName() + " step started");
             }
 
             @Override
-            public ExitStatus afterStep(StepExecution stepExecution) {
+            public ExitStatus afterStep(@NonNull StepExecution stepExecution) {
                 logger.debug(stepExecution.getStepName() + " step finished");
                 return ExitStatus.COMPLETED;
             }
@@ -124,7 +124,7 @@ public class JobConfig {
 
             @Override
             public void afterJob(@NonNull JobExecution jobExecution) {
-                //mongoTemplate.dropCollection(IdRelation.class);
+                mongoTemplate.dropCollection(IdRelation.class);
                 logger.debug("job finished");
             }
         };

@@ -24,7 +24,7 @@ public class AuthorItemWriter implements ItemWriter<AuthorMongo> {
         items.forEach(it -> {
             IdRelation idRelation = new IdRelation();
             idRelation.setType(AuthorMongo.class.getName());
-            idRelation.setSqlId(Long.parseLong(it.getId()));;
+            idRelation.setSqlId(Long.parseLong(it.getId()));
             it.setId(null);
             idRelation.setMongoId(authorRepositoryMongo.save(it).getId());
             idRelations.add(idRelation);
