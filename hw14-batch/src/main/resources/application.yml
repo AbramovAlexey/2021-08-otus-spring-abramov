@@ -1,0 +1,21 @@
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: library
+  batch:
+    job:
+      enabled: false
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+  datasource:
+    url: jdbc:h2:mem:testdb
+  liquibase:
+    change-log: classpath:db/changelog/liquibase-changelog.xml
+#logging:
+#  level:
+#    ru.otus.spring.hw14.job: DEBUG
+#    org.springframework.data.mongodb.core.MongoTemplate: DEBUG
