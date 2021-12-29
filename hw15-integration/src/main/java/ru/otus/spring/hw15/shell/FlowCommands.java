@@ -3,17 +3,16 @@ package ru.otus.spring.hw15.shell;
 import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
-import ru.otus.spring.hw15.domain.Seed;
+import org.springframework.shell.standard.commands.Quit;
 import ru.otus.spring.hw15.domain.Vegetable;
 import ru.otus.spring.hw15.integration.GreenhouseGateway;
 import ru.otus.spring.hw15.service.SeedGenerator;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 @ShellComponent
 @RequiredArgsConstructor
-public class FlowCommands {
+public class FlowCommands implements Quit.Command{
 
     private final GreenhouseGateway greenhouse;
     private final SeedGenerator seedGenerator;
@@ -23,6 +22,11 @@ public class FlowCommands {
         return greenhouse.process(seedGenerator.generate()).stream()
                 .map(Vegetable::toString)
                 .collect(Collectors.joining(System.lineSeparator()));
+    }
+
+    @ShellMethod(value = "Exit", key = {"exit"})
+    public void exit(){
+        System.exit(0);
     }
 
 }

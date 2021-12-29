@@ -13,7 +13,7 @@ public class SowerImpl implements Sower{
     @Override
     public Seed sow(Seed seed) {
         seed.setSeeded(true);
-        logger.info("Seed seeded " + seed);
+        logger.info("seeded " + seed);
         return seed;
     }
 
