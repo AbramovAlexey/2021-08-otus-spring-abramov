@@ -15,3 +15,18 @@ server:
 jwt:
     secret: AXFzDktew1Lw9Vn8tj4R
     expTime: 1800000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+  health:
+    defaults:
+      enabled: true
+  info:
+    git:
+      mode: full
