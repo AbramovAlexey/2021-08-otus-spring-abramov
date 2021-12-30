@@ -8,6 +8,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.index.Index;
 import ru.otus.spring.hw16.model.*;
 import ru.otus.spring.hw16.repository.*;
+import ru.otus.spring.hw16.security.config.RoleNames;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class DatabaseChangelog {
     private final Author author2 = new Author("Tolstoy");
     private final Genre genre = new Genre("Fantasy");
     private final Book book = new Book("LOTR", List.of(author1, author2), List.of(genre));
-    private final List<Role> roles = List.of(new Role("ROLE_USER"), new Role("ROLE_MANAGER"));
+    private final List<Role> roles = List.of(new Role(RoleNames.USER), new Role(RoleNames.MANAGER));
     private final List<AppUser> users = List.of(new AppUser("user", "$2a$10$WTAIgpwhOTDqxUu5yOz5NebhXTB.ub7P2SdBbjm1qsRWYzCu2sE7u", List.of(roles.get(0))),
                                                 new AppUser("manager", "$2a$10$7ye2HJh06SybOPmpKuOKw.O83K/1z4IvERnW2JLGd4bdklrzrzR9a", List.of(roles.get(1))),
                                                 new AppUser("admin", "$2a$10$lQf9bIvxe.HP4B01X7TcpOqklTqxWzDx.0ruKJ5CMmlhRtjCQ/gNS"));

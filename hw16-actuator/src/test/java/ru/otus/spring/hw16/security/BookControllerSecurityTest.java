@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.otus.spring.hw16.rest.BookController;
+import ru.otus.spring.hw16.security.config.RoleNames;
 import ru.otus.spring.hw16.security.config.WebSecurityConfig;
 import ru.otus.spring.hw16.security.jwt.AuthEntryPointJwt;
 import ru.otus.spring.hw16.security.jwt.AuthTokenFilter;
@@ -65,7 +66,7 @@ public class BookControllerSecurityTest {
         when(jwtUtils.parseJwt(any())).thenReturn(Optional.of(token));
         when(jwtUtils.validateJwtToken(token)).thenReturn(true);
         when(jwtUtils.getUserNameFromJwtToken(token)).thenReturn(user);
-        when(userDetailsService.loadUserByUsername(user)).thenReturn(new User(user, user, List.of(new SimpleGrantedAuthority("ROLE_USER"))));
+        when(userDetailsService.loadUserByUsername(user)).thenReturn(new User(user, user, List.of(new SimpleGrantedAuthority(RoleNames.USER))));
         mvc.perform(get("/api/books").header("Authorization", "Bearer " + token))
            .andExpect(status().isOk());
     }

@@ -5,6 +5,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.otus.spring.hw16.dto.AuthorDto;
+import ru.otus.spring.hw16.security.config.PermissionExpression;
 import ru.otus.spring.hw16.service.AuthorService;
 import ru.otus.spring.hw16.service.DtoConverter;
 
@@ -18,7 +19,7 @@ public class AuthorController {
     private final AuthorService authorService;
 
     @GetMapping("api/authors")
-    @PreAuthorize("hasRole('USER') or hasRole('MANAGER')")
+    @PreAuthorize(PermissionExpression.USER_OR_MANAGER)
     public List<AuthorDto> getAllAuthors() {
         return dtoConverter.authorsToDto(authorService.readAll());
     }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import ru.otus.spring.hw16.model.Role;
 import ru.otus.spring.hw16.repository.AppUserRepository;
 import ru.otus.spring.hw16.repository.RoleRepository;
+import ru.otus.spring.hw16.security.config.RoleNames;
 
 @Component
 @RequiredArgsConstructor
@@ -22,7 +23,7 @@ public class LibraryUsageHealthIndicator implements HealthIndicator {
     }
 
     private Long getUsersCount() {
-        Role userRole = roleRepository.findByName("ROLE_USER").orElseThrow(() -> new RuntimeException("ROLE_USER not exist!!"));
+        Role userRole = roleRepository.findByName(RoleNames.USER).orElseThrow(() -> new RuntimeException(RoleNames.USER + " not exist!!"));
         return appUserRepository.countAllByRolesContains(userRole.getId());
     }
 

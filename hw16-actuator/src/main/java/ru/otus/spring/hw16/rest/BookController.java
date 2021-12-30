@@ -5,6 +5,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.otus.spring.hw16.dto.BookDto;
 import ru.otus.spring.hw16.model.Book;
+import ru.otus.spring.hw16.security.config.PermissionExpression;
 import ru.otus.spring.hw16.service.BookService;
 import ru.otus.spring.hw16.service.DtoConverter;
 
@@ -19,32 +20,32 @@ public class BookController {
     private final DtoConverter dtoConverter;
 
     @GetMapping("api/books")
-    @PreAuthorize("hasRole('USER') or hasRole('MANAGER')")
+    @PreAuthorize(PermissionExpression.USER_OR_MANAGER)
     public List<BookDto> getBookList() {
         return dtoConverter.booksToDto(bookService.readAll());
     }
 
     @GetMapping("api/books/{id}")
-    @PreAuthorize("hasRole('USER') or hasRole('MANAGER')")
+    @PreAuthorize(PermissionExpression.USER_OR_MANAGER)
     public BookDto getBookById(@PathVariable String id) {
         return dtoConverter.bookToDto(bookService.readById(id));
     }
 
     @DeleteMapping("api/books/{id}")
-    @PreAuthorize("hasRole('MANAGER')")
+    @PreAuthorize(PermissionExpression.MANAGER)
     public void deleteBookById(@PathVariable String id) {
         bookService.deleteById(id);
     }
 
     @PostMapping("api/books")
-    @PreAuthorize("hasRole('MANAGER')")
+    @PreAuthorize(PermissionExpression.MANAGER)
     public BookDto addBook(@Valid @RequestBody BookDto bookDto) {
         Book book = bookService.save(dtoConverter.DtoToBook(bookDto));
         return dtoConverter.bookToDto(book);
     }
 
     @PutMapping("api/books/{id}")
-    @PreAuthorize("hasRole('MANAGER')")
+    @PreAuthorize(PermissionExpression.MANAGER)
     public BookDto eidtBook(@Valid @RequestBody BookDto bookDto, @PathVariable String id) {
         Book bookToUpdate = dtoConverter.DtoToBook(bookDto);
         bookToUpdate.setId(id);

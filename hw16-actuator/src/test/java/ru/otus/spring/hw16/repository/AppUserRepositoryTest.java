@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import ru.otus.spring.hw16.model.AppUser;
 import ru.otus.spring.hw16.model.Role;
+import ru.otus.spring.hw16.security.config.RoleNames;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class AppUserRepositoryTest {
     @Autowired
     private RoleRepository roleRepository;
 
-    private Role role = new Role("ROLE_USER");
+    private Role role = new Role(RoleNames.USER);
     private AppUser user = new AppUser("user", "user", List.of(role));
 
     @Test
