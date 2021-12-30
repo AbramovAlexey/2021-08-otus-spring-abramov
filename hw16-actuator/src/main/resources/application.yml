@@ -16,17 +16,25 @@ jwt:
     secret: AXFzDktew1Lw9Vn8tj4R
     expTime: 1800000
 
+logging:
+  level:
+    ROOT: INFO
+  file:
+    name: ./library-app.log
+
 management:
   endpoints:
     web:
       exposure:
-        include: "*"
+        include: "health,metrics,logfile"
   endpoint:
     health:
       show-details: always
   health:
     defaults:
       enabled: true
-  info:
-    git:
-      mode: full
+
+info:
+  app:
+    version: "@version@"
+    name: "@name@"

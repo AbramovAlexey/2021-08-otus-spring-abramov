@@ -8,5 +8,6 @@ import java.util.Optional;
 public interface AppUserRepository extends MongoRepository<AppUser, String> {
 
     Optional<AppUser> findByName(String name);
+    Long countAllByRolesContains(String id);
 
 }

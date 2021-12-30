@@ -2,6 +2,8 @@ package ru.otus.spring.hw16.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.otus.spring.hw16.actuator.AddBookTracking;
+import ru.otus.spring.hw16.actuator.DeleteBookTracking;
 import ru.otus.spring.hw16.model.Author;
 import ru.otus.spring.hw16.model.Book;
 import ru.otus.spring.hw16.model.Comment;
@@ -23,6 +25,7 @@ public class BookServiceImpl implements BookService{
     private final DtoConverter dtoConverter;
 
     @Override
+    @AddBookTracking
     public Book create(String name, String authorName, String genreName) {
         Author author = authorService.readByName(authorName);
         Genre genre = genreService.readByName(genreName);
@@ -48,6 +51,7 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
+    @DeleteBookTracking
     public void deleteByName(String name) {
         bookRepository.deleteByName(name);
     }
@@ -127,11 +131,13 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
+    @DeleteBookTracking
     public void deleteById(String id) {
         bookRepository.deleteById(id);
     }
 
     @Override
+    @AddBookTracking
     public Book save(Book book) {
         return bookRepository.save(book);
     }
