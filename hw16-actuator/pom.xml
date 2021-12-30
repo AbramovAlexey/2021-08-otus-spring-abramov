@@ -9,6 +9,7 @@
     </parent>
 
     <artifactId>hw16-actuator</artifactId>
+    <name>Library App</name>
     <version>1.0</version>
 
     <properties>

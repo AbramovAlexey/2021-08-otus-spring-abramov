@@ -26,7 +26,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: "health,metrics,logfile"
+        include: "health,metrics,logfile,info"
   endpoint:
     health:
       show-details: always

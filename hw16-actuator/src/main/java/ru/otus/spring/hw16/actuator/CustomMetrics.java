@@ -37,6 +37,4 @@ public class CustomMetrics implements InitializingBean {
         registry.gauge(GAUGE_BOOKS, count.decrementAndGet());
     }
 
-
-
 }
