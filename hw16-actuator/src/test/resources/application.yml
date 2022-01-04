@@ -1,0 +1,14 @@
+spring:
+  data:
+    mongodb:
+      port: 0
+      database: library
+
+mongock:
+  runner-type: "ApplicationRunner"
+  change-logs-scan-package: ru.otus.spring.hw16.changelog
+  enabled: false
+
+logging:
+  level:
+    org.springframework.data.mongodb.core.MongoTemplate: DEBUG
