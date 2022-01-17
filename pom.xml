@@ -57,6 +57,8 @@
         <module>hw11-flux</module>
         <module>hw12-auth</module>
         <module>hw13-authority</module>
+        <module>hw14-batch</module>
+        <module>hw15-integration</module>
         <module>hw16-actuator</module>
     </modules>
 </project>
