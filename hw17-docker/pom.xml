@@ -116,6 +116,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
+        <finalName>hw17-docker</finalName>
     </build>
 
 </project>
