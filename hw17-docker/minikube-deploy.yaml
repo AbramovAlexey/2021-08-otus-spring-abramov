@@ -76,8 +76,7 @@ spec:
     spec:
       containers:
         - name: app-service
-          image: library:test
-          imagePullPolicy: Never
+          image: abramovav/otus-spring:library_backend
           ports:
             - containerPort: 8090
           env:
