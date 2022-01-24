@@ -1,0 +1,92 @@
+#config
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mongo-db-config
+data:
+  host: mongodb-service
+  database: library
+---
+#database
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: mongodb
+  name: mongodb-service
+spec:
+  ports:
+    - port: 27017
+      targetPort: 27017
+  selector:
+    app: mongodb
+  clusterIP: None
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongodb
+  labels:
+    app: mongodb
+spec:
+  selector:
+    matchLabels:
+      app: mongodb
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mongodb
+      name: mongodb-service
+    spec:
+      containers:
+        - image: mongo:4.4.11
+          name: mongodb
+          ports:
+            - containerPort: 27017
+              name: mongodb
+---
+#backend
+kind: Service
+apiVersion: v1
+metadata:
+  name: app-service
+spec:
+  selector:
+    app: app-service
+  ports:
+    - protocol: TCP
+      port: 8090
+      nodePort: 30081
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-service
+spec:
+  selector:
+    matchLabels:
+      app: app-service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: app-service
+    spec:
+      containers:
+        - name: app-service
+          image: abramovav/otus-spring:library_backend
+          ports:
+            - containerPort: 8090
+          env:
+            - name: SPRING_DATA_MONGODB_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: mongo-db-config
+                  key: database
+            - name: SPRING_DATA_MONGODB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: mongo-db-config
+                  key: host
