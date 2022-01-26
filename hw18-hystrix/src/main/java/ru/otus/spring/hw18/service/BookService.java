@@ -9,9 +9,7 @@ public interface BookService {
 
     Book readByName(String name);
     List<Book> readAll();
-    void updateDeleteAuthor(String nameBook, String nameAuthor);
     Book readById(String id);
-
     void deleteById(String id);
     Book save(Book book);
 

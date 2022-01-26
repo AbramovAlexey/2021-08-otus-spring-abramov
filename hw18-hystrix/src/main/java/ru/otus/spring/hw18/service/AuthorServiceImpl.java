@@ -15,8 +15,10 @@ import java.util.Optional;
 public class AuthorServiceImpl implements AuthorService{
 
     private final AuthorRepository authorRepository;
+    private final Author fallbackAuthor = new Author("-1", "N/A. Service is unavailable, try again later");
 
     @Override
+    @HystrixCommand(fallbackMethod = "readAOneFallBack")
     public Author readByName(String name) {
         return Optional.ofNullable(authorRepository.findByName(name))
                        .orElseThrow(() -> new RuntimeException(String.format("Author with name '%s' not found", name)));
@@ -29,13 +31,18 @@ public class AuthorServiceImpl implements AuthorService{
     }
 
     @Override
+    @HystrixCommand(fallbackMethod = "readAOneFallBack")
     public Author readOrCreate(String name) {
         return Optional.ofNullable(authorRepository.findByName(name))
                 .orElseGet(() -> authorRepository.save(new Author(name)));
     }
 
     private List<Author> readAllFallBack() {
-        return List.of(new Author("-1", "Service is unavailable, try again later"));
+        return List.of(fallbackAuthor);
+    }
+
+    private Author readAOneFallBack(String name) {
+        return fallbackAuthor;
     }
 
 }

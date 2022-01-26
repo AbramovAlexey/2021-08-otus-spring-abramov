@@ -56,11 +56,4 @@ public class BookServiceTest {
         assertThat(bookService.readAll()).asList().containsExactly(book);
     }
 
-    @Test
-    @DisplayName("Raise exception when try to delete wrong author")
-    void shouldRaiseExceptionWhenDeleteWrongAuthor() {
-        when(bookRepository.findByName(book.getName())).thenReturn(book);
-        assertThatThrownBy(() -> bookService.updateDeleteAuthor(book.getName(), "wrongAuthor")).isInstanceOf(RuntimeException.class);
-    }
-
 }

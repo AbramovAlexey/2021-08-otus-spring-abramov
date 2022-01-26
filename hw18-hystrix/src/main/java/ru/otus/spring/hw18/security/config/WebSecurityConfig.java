@@ -61,11 +61,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) {
         web.ignoring()
            .antMatchers("/actuator/**")
+           .antMatchers("/hystrix/**")
            .antMatchers("/favicon.ico")
            .antMatchers("/swagger-ui.html")
-           .antMatchers("/webjars/springfox-swagger-ui/**")
+           .antMatchers("/webjars/**")
            .antMatchers("/swagger-resources/**")
-           .antMatchers("/v2/api-docs");
+           .antMatchers("/v2/api-docs")
+           .antMatchers("/proxy.stream");
+
     }
 
 }

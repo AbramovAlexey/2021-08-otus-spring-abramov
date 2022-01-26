@@ -26,7 +26,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: "health,metrics,logfile,info"
+        include: "health,metrics,logfile,info,hystrix.stream"
   endpoint:
     health:
       show-details: always
@@ -38,3 +38,7 @@ info:
   app:
     version: "@version@"
     name: "@name@"
+
+hystrix:
+  dashboard:
+    proxy-stream-allow-list: '*'
