@@ -47,8 +47,6 @@ public class DtoConverterImpl implements DtoConverter{
         return books.stream().map(this::bookToDto).collect(Collectors.toList());
     }
 
-
-
     @Override
     public AuthorDto authorToDto(Author author) {
         return new AuthorDto(author.getId(), author.getName());

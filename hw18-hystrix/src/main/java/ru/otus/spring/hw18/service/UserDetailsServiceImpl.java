@@ -1,6 +1,7 @@
 package ru.otus.spring.hw18.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,6 +21,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private final AppUserRepository appUserRepository;
 
     @Override
+    @Cacheable(cacheNames = "userDetails")
     public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
         AppUser appUser = appUserRepository.findByName(name)
                                            .orElseThrow(() -> new UsernameNotFoundException("User with username: " + name + " not found"));

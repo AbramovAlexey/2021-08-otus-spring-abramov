@@ -7,6 +7,6 @@ import java.util.Optional;
 
 public interface BlackListTokenItemRepository extends MongoRepository<BlackListTokenItem, String> {
 
-    Optional<BlackListTokenItemRepository> findByToken(String token);
+    Optional<BlackListTokenItem> findByToken(String token);
 
 }

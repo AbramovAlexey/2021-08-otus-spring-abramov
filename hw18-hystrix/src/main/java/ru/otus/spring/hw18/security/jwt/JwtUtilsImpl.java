@@ -8,7 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
-import ru.otus.spring.hw18.repository.BlackListTokenItemRepository;
+import ru.otus.spring.hw18.service.BlackListTokenItemService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.Duration;
@@ -29,7 +29,7 @@ public class JwtUtilsImpl implements JwtUtils {
     private static final Pattern TOKEN_PATTERN = Pattern.compile(BEARER_PREFIX + " (.+)$");
 
     private final JwtConfig jwtConfig;
-    private final BlackListTokenItemRepository blackListTokenItemRepository;
+    private final BlackListTokenItemService blackListTokenItemService;
 
     @Override
     public String generateJwtToken(Authentication authentication) {
@@ -65,7 +65,7 @@ public class JwtUtilsImpl implements JwtUtils {
     @Override
     public boolean validateJwtToken(String authToken) {
         try {
-            if (blackListTokenItemRepository.findByToken(authToken).isPresent()) {
+            if (blackListTokenItemService.findByToken(authToken).isPresent()) {
                 logger.error("JWT token in black list");
                 return false;
             }

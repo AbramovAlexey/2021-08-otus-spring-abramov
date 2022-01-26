@@ -15,18 +15,6 @@ public class GenreServiceImpl implements GenreService{
     private final GenreRepository genreRepository;
 
     @Override
-    public String create(String name) {
-        return genreRepository.save(new Genre(name)).getId();
-    }
-
-    @Override
-    public void update(String oldName, String newName) {
-        Genre genre = readByName(oldName);
-        genre.setName(newName);
-        genreRepository.save(genre);
-    }
-
-    @Override
     public Genre readByName(String name) {
         return Optional.ofNullable(genreRepository.findByName(name))
                        .orElseThrow(() -> new RuntimeException(String.format("Genre with name '%s' not found", name)));
@@ -35,11 +23,6 @@ public class GenreServiceImpl implements GenreService{
     @Override
     public List<Genre> readAll() {
         return genreRepository.findAll();
-    }
-
-    @Override
-    public void deleteByName(String name) {
-        genreRepository.deleteByName(name);
     }
 
     @Override
